@@ -1,667 +1,409 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Phillip Owor — Technical Artist & XR Developer</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600&family=Inter:wght@300;400&display=swap" rel="stylesheet" />
-    <style>
-        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-        :root {
-            --bg:        #0a0806;
-            --bg2:       #110e0a;
-            --bg3:       #1a1610;
-            --amber:     #c8922a;
-            --amber-dim: #7a5518;
-            --amber-glow:#e8a83a;
-            --text:      #e0d0b8;
-            --text-dim:  #8a7a68;
-            --border:    #2a2018;
-        }
-
-        html { scroll-behavior: smooth; }
-
-        body {
-            background: var(--bg);
-            color: var(--text);
-            font-family: 'Inter', sans-serif;
-            font-weight: 300;
-            line-height: 1.7;
-            overflow-x: hidden;
-        }
-
-        /* ── FAINT NEBULA PAGE BACKGROUND ── */
-        #nebula-bg {
-            position: fixed;
-            inset: 0;
-            background-image: url('assets/render_1.jpg');
-            background-size: cover;
-            background-position: center;
-            opacity: 0.05;            /* barely perceptible */
-            pointer-events: none;
-            z-index: 0;
-        }
-
-        /* ── STAR CANVAS (interactive) ── */
-        #stars {
-            position: fixed;
-            inset: 0;
-            z-index: 1;
-            /* clickable: supernovas */
-        }
-
-        .page { position: relative; z-index: 2; pointer-events: none; }
-        .page a, .page summary, .page .project-card, .page nav, .page section, .page footer, .page header {
-            pointer-events: auto;
-        }
-
-        /* ── NAV ── */
-        nav {
-            position: fixed;
-            top: 0; left: 0; right: 0;
-            padding: 18px 48px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            z-index: 100;
-            background: linear-gradient(to bottom, #0a0806f2 0%, #0a0806cc 70%, transparent 100%);
-        }
-        .logo { display: flex; align-items: center; gap: 12px; text-decoration: none; }
-        .logo svg { display: block; }
-        .logo-text {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 0.85rem;
-            font-weight: 500;
-            letter-spacing: 0.14em;
-            color: var(--text);
-            text-transform: uppercase;
-        }
-        .nav-links { display: flex; gap: 32px; }
-        .nav-links a {
-            font-size: 0.8rem;
-            letter-spacing: 0.08em;
-            text-transform: uppercase;
-            color: var(--text-dim);
-            text-decoration: none;
-            transition: color 0.2s;
-        }
-        .nav-links a:hover { color: var(--amber-glow); }
-
-        /* ── HERO ── */
-        .hero {
-            position: relative;
-            min-height: 92vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            padding: 0 48px;
-        }
-        .hero-bg {
-            position: absolute;
-            inset: 0;
-            background-image: url('assets/render_2.jpg');
-            background-size: cover;
-            background-position: center;
-            z-index: -2;
-        }
-        .hero-bg::after {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(to bottom, #0a0806b8 0%, #0a0806a8 55%, var(--bg) 100%);
-        }
-        .hero-inner { max-width: 760px; }
-        .hero-eyebrow {
-            font-size: 0.75rem;
-            letter-spacing: 0.2em;
-            text-transform: uppercase;
-            color: var(--amber-glow);
-            margin-bottom: 22px;
-            opacity: 0;
-            animation: fade-up 0.8s 0.3s forwards;
-        }
-        .hero-name {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: clamp(2.8rem, 7vw, 5.2rem);
-            font-weight: 300;
-            line-height: 1.05;
-            letter-spacing: -0.02em;
-            color: #f2e8d8;
-            margin-bottom: 22px;
-            opacity: 0;
-            animation: fade-up 0.8s 0.5s forwards;
-        }
-        .hero-name em { font-style: normal; color: var(--amber-glow); }
-        .hero-desc {
-            font-size: 1rem;
-            color: #c0b09a;
-            max-width: 480px;
-            line-height: 1.8;
-            opacity: 0;
-            animation: fade-up 0.8s 0.7s forwards;
-        }
-        .hero-cta { margin-top: 40px; opacity: 0; animation: fade-up 0.8s 0.9s forwards; }
-        .hero-cta a {
-            font-size: 0.8rem;
-            letter-spacing: 0.12em;
-            text-transform: uppercase;
-            color: var(--amber-glow);
-            text-decoration: none;
-            border-bottom: 1px solid var(--amber-dim);
-            padding-bottom: 3px;
-            transition: border-color 0.2s, color 0.2s;
-        }
-        .hero-cta a:hover { color: #ffc860; border-color: #ffc860; }
-
-        @keyframes fade-up {
-            from { opacity: 0; transform: translateY(16px); }
-            to   { opacity: 1; transform: translateY(0); }
-        }
-
-        /* ── SECTIONS ── */
-        section {
-            padding: 90px 48px;
-            max-width: 1240px;
-            margin: 0 auto;
-        }
-        .section-label {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 1.4rem;
-            font-weight: 400;
-            color: var(--text);
-            margin-bottom: 8px;
-        }
-        .section-sub {
-            font-size: 0.8rem;
-            letter-spacing: 0.16em;
-            text-transform: uppercase;
-            color: var(--amber-dim);
-            margin-bottom: 44px;
-        }
-
-        /* ── PROJECT GRID ── */
-        .projects-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
-            gap: 26px;   /* room for the nebula frame to expand into */
-        }
-
-        /*
-          Card anatomy:
-          .project-card        — relative wrapper, NOT clipped (nebula frame lives here)
-            ::before           — nebula frame, extends past edges, hidden at rest
-            .card-inner        — clipped media container with thin amber outline
-        */
-        .project-card {
-            position: relative;
-            aspect-ratio: 16/9;
-            cursor: pointer;
-        }
-        .project-card::before {
-            content: '';
-            position: absolute;
-            inset: -8px;                       /* thick nebula outline */
-            background-image: url('assets/render_1.jpg');
-            background-size: cover;
-            background-position: center;
-            border-radius: 10px;
-            opacity: 0;
-            transition: opacity 0.35s ease;
-            z-index: 0;
-        }
-        .project-card:hover::before {
-            opacity: 1;
-            /* soft amber glow at the outer edge of the nebula frame */
-            box-shadow: 0 0 28px 6px #c8922a55, 0 0 60px 14px #c8922a22;
-        }
-        .card-inner {
-            position: absolute;
-            inset: 0;
-            overflow: hidden;
-            border-radius: 6px;
-            background: var(--bg3);
-            border: 1px solid var(--amber-dim);  /* thin gold-amber outline at rest */
-            transition: border-color 0.35s ease;
-            z-index: 1;
-        }
-        .project-card:hover .card-inner { border-color: transparent; }
-
-        .card-thumb, .card-video {
-            position: absolute;
-            inset: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
-        }
-        .card-thumb { transition: opacity 0.4s ease; }
-        .card-placeholder { position: absolute; inset: 0; transition: opacity 0.4s ease; }
-        .card-video { opacity: 0; transition: opacity 0.5s ease; }
-        .card-overlay {
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(to top, #0a0806cc 0%, transparent 55%);
-            transition: opacity 0.4s ease;
-            z-index: 2;
-        }
-        .card-info {
-            position: absolute;
-            bottom: 0; left: 0; right: 0;
-            padding: 18px 20px;
-            z-index: 3;
-            transform: translateY(4px);
-            transition: transform 0.3s ease;
-        }
-        .card-title {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 1rem;
-            font-weight: 500;
-            color: #f2e8d8;
-            margin-bottom: 2px;
-        }
-        .card-meta {
-            font-size: 0.72rem;
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
-            color: var(--amber);
-            opacity: 0.85;
-        }
-        .project-card:hover .card-thumb { opacity: 0; }
-        .project-card:hover .card-placeholder { opacity: 0; }
-        .project-card:hover .card-video { opacity: 1; }
-        .project-card:hover .card-overlay { opacity: 0.35; }
-        .project-card:hover .card-info { transform: translateY(0); }
-
-        /* ── ABOUT (dropdown) ── */
-        details.about {
-            border: 1px solid var(--border);
-            border-radius: 6px;
-            background: #110e0af2;
-            max-width: 760px;
-        }
-        details.about summary {
-            list-style: none;
-            cursor: pointer;
-            padding: 20px 24px;
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 1rem;
-            font-weight: 500;
-            color: var(--text);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            transition: color 0.2s;
-        }
-        details.about summary::-webkit-details-marker { display: none; }
-        details.about summary::after {
-            content: '+';
-            color: var(--amber);
-            font-size: 1.3rem;
-            font-weight: 300;
-            transition: transform 0.3s;
-        }
-        details.about[open] summary::after { transform: rotate(45deg); }
-        details.about summary:hover { color: var(--amber-glow); }
-        .about-body {
-            padding: 0 24px 24px;
-            color: var(--text-dim);
-            font-size: 0.95rem;
-            line-height: 1.85;
-        }
-        .about-body p { margin-bottom: 14px; }
-        .about-body strong { color: var(--text); font-weight: 400; }
-
-        /* ── CONTACT ── */
-        .contact-links {
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-            max-width: 480px;
-        }
-        .contact-link {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            text-decoration: none;
-            color: var(--text-dim);
-            font-size: 0.88rem;
-            letter-spacing: 0.04em;
-            transition: color 0.2s;
-            padding: 14px 0;
-            border-bottom: 1px solid var(--border);
-        }
-        .contact-link:hover { color: var(--amber-glow); }
-        .contact-link-label {
-            font-size: 0.65rem;
-            letter-spacing: 0.15em;
-            text-transform: uppercase;
-            color: var(--amber-dim);
-            min-width: 90px;
-        }
-
-        footer {
-            border-top: 1px solid var(--border);
-            padding: 28px 48px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        footer p { font-size: 0.75rem; color: var(--text-dim); }
-
-        @media (max-width: 768px) {
-            nav { padding: 14px 22px; }
-            .nav-links { gap: 18px; }
-            .nav-links a { font-size: 0.7rem; }
-            .hero { padding: 0 22px; }
-            section { padding: 70px 22px; }
-            .projects-grid { grid-template-columns: 1fr; }
-            footer { padding: 22px; flex-direction: column; gap: 8px; text-align: center; }
-        }
-
-        @media (prefers-reduced-motion: reduce) {
-            * { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Phillip Owor — Technical Artist & XR Developer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600&family=Inter:wght@300;400&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg:#0a0806; --bg2:#110e0a; --bg3:#1a1610;
+      --amber:#c8922a; --amber-dim:#7a5518; --amber-glow:#e8a83a;
+      --text:#e0d0b8; --text-dim:#8a7a68; --border:#2a2018;
+    }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--text); font-family:'Inter',sans-serif; font-weight:300; line-height:1.7; overflow-x:hidden; }
+    #nebula-bg { position:fixed; inset:0; background-image:url('assets/render_1.jpg'); background-size:cover; background-position:center; opacity:0.05; pointer-events:none; z-index:0; }
+    #stars { position:fixed; inset:0; z-index:1; }
+    .page { position:relative; z-index:2; pointer-events:none; }
+    .page a, .page summary, .page .project-card, .page nav, .page section, .page footer, .page header { pointer-events:auto; }
+    nav { position:fixed; top:0; left:0; right:0; padding:18px 48px; display:flex; justify-content:space-between; align-items:center; z-index:100; background:linear-gradient(to bottom,#0a0806f2 0%,#0a0806cc 70%,transparent 100%); }
+    .logo { display:flex; align-items:center; gap:12px; text-decoration:none; }
+    .logo svg { display:block; }
+    .logo-text { font-family:'Space Grotesk',sans-serif; font-size:0.85rem; font-weight:500; letter-spacing:0.14em; color:var(--text); text-transform:uppercase; }
+    .nav-links { display:flex; gap:32px; }
+    .nav-links a { font-size:0.8rem; letter-spacing:0.08em; text-transform:uppercase; color:var(--text-dim); text-decoration:none; transition:color 0.2s; }
+    .nav-links a:hover { color:var(--amber-glow); }
+    .hero { position:relative; min-height:92vh; display:flex; flex-direction:column; justify-content:center; padding:0 48px; }
+    .hero-bg { position:absolute; inset:0; background-image:url('assets/render_2.jpg'); background-size:cover; background-position:center; z-index:-2; }
+    .hero-bg::after { content:''; position:absolute; inset:0; background:linear-gradient(to bottom,#0a0806b8 0%,#0a0806a8 55%,var(--bg) 100%); }
+    .hero-inner { max-width:760px; }
+    .hero-eyebrow { font-size:0.75rem; letter-spacing:0.2em; text-transform:uppercase; color:var(--amber-glow); margin-bottom:22px; opacity:0; animation:fade-up 0.8s 0.3s forwards; }
+    .hero-name { font-family:'Space Grotesk',sans-serif; font-size:clamp(2.8rem,7vw,5.2rem); font-weight:300; line-height:1.05; letter-spacing:-0.02em; color:#f2e8d8; margin-bottom:22px; opacity:0; animation:fade-up 0.8s 0.5s forwards; }
+    .hero-name em { font-style:normal; color:var(--amber-glow); }
+    .hero-desc { font-size:1rem; color:#c0b09a; max-width:480px; line-height:1.8; opacity:0; animation:fade-up 0.8s 0.7s forwards; }
+    .hero-cta { margin-top:40px; opacity:0; animation:fade-up 0.8s 0.9s forwards; }
+    .hero-cta a { font-size:0.8rem; letter-spacing:0.12em; text-transform:uppercase; color:var(--amber-glow); text-decoration:none; border-bottom:1px solid var(--amber-dim); padding-bottom:3px; transition:border-color 0.2s,color 0.2s; }
+    .hero-cta a:hover { color:#ffc860; border-color:#ffc860; }
+    @keyframes fade-up { from{opacity:0;transform:translateY(16px);} to{opacity:1;transform:translateY(0);} }
+    section { padding:90px 48px; max-width:1240px; margin:0 auto; }
+    .section-label { font-family:'Space Grotesk',sans-serif; font-size:1.4rem; font-weight:400; color:var(--text); margin-bottom:8px; }
+    .section-sub { font-size:0.8rem; letter-spacing:0.16em; text-transform:uppercase; color:var(--amber-dim); margin-bottom:44px; }
+    .projects-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(340px,1fr)); gap:26px; }
+    .project-card { position:relative; aspect-ratio:16/9; cursor:pointer; }
+    .project-card::before { content:''; position:absolute; inset:-8px; background-image:url('assets/render_1.jpg'); background-size:cover; background-position:center; border-radius:10px; opacity:0; transition:opacity 0.35s ease; z-index:0; }
+    .project-card:hover::before { opacity:1; box-shadow:0 0 28px 6px #c8922a55, 0 0 60px 14px #c8922a22; }
+    .card-inner { position:absolute; inset:0; overflow:hidden; border-radius:6px; background:var(--bg3); border:1px solid var(--amber-dim); transition:border-color 0.35s ease; z-index:1; }
+    .project-card:hover .card-inner { border-color:transparent; }
+    .card-thumb, .card-video { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; display:block; }
+    .card-thumb { transition:opacity 0.4s ease; }
+    .card-video { opacity:0; transition:opacity 0.5s ease; }
+    .card-overlay { position:absolute; inset:0; background:linear-gradient(to top,#0a0806cc 0%,transparent 55%); transition:opacity 0.4s ease; z-index:2; }
+    .card-info { position:absolute; bottom:0; left:0; right:0; padding:18px 20px; z-index:3; transform:translateY(4px); transition:transform 0.3s ease; }
+    .card-title { font-family:'Space Grotesk',sans-serif; font-size:1rem; font-weight:500; color:#f2e8d8; margin-bottom:2px; }
+    .card-meta { font-size:0.72rem; letter-spacing:0.1em; text-transform:uppercase; color:var(--amber); opacity:0.85; }
+    .project-card:hover .card-thumb { opacity:0; }
+    .project-card:hover .card-video { opacity:1; }
+    .project-card:hover .card-overlay { opacity:0.35; }
+    .project-card:hover .card-info { transform:translateY(0); }
+    #project-modal { position:fixed; inset:0; z-index:300; background:#050403f5; display:none; overflow-y:auto; pointer-events:auto; }
+    #project-modal.open { display:block; }
+    .modal-content { max-width:960px; margin:0 auto; padding:80px 24px 100px; }
+    .modal-close { position:fixed; top:24px; right:32px; z-index:310; width:44px; height:44px; border-radius:50%; background:#1a1610cc; border:1px solid var(--border); color:var(--text); font-size:1.4rem; line-height:1; display:flex; align-items:center; justify-content:center; cursor:pointer; transition:border-color 0.2s,color 0.2s; }
+    .modal-close:hover { color:var(--amber-glow); border-color:var(--amber-dim); }
+    .modal-title { font-family:'Space Grotesk',sans-serif; font-size:2rem; font-weight:400; color:#f2e8d8; margin-bottom:6px; }
+    .modal-meta { font-size:0.78rem; letter-spacing:0.12em; text-transform:uppercase; color:var(--amber); margin-bottom:32px; }
+    .modal-trailer { position:relative; width:100%; aspect-ratio:16/9; border-radius:8px; overflow:hidden; border:1px solid var(--border); margin-bottom:32px; background:#000; }
+    .modal-trailer iframe { position:absolute; inset:0; width:100%; height:100%; border:0; }
+    .modal-desc { color:var(--text-dim); font-size:0.98rem; line-height:1.85; max-width:720px; margin-bottom:16px; }
+    .modal-desc p { margin-bottom:14px; }
+    .modal-desc strong { color:var(--text); font-weight:400; }
+    .modal-links { display:flex; gap:20px; margin-bottom:44px; flex-wrap:wrap; }
+    .modal-link { font-size:0.78rem; letter-spacing:0.08em; text-transform:uppercase; color:var(--amber-glow); text-decoration:none; border-bottom:1px solid var(--amber-dim); padding-bottom:2px; transition:color 0.2s; }
+    .modal-link:hover { color:#ffc860; }
+    .modal-gallery-label { font-family:'Space Grotesk',sans-serif; font-size:0.95rem; color:var(--text); margin-bottom:18px; }
+    .modal-gallery { display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr)); gap:10px; }
+    .gallery-thumb { aspect-ratio:16/9; overflow:hidden; border-radius:5px; border:1px solid var(--border); cursor:pointer; background:var(--bg3); }
+    .gallery-thumb img, .gallery-thumb video { width:100%; height:100%; object-fit:cover; display:block; transition:transform 0.5s ease; }
+    .gallery-thumb:hover img, .gallery-thumb:hover video { transform:scale(1.05); }
+    #lightbox { position:fixed; inset:0; z-index:400; background:#030302fa; display:none; align-items:center; justify-content:center; pointer-events:auto; }
+    #lightbox.open { display:flex; }
+    .lb-media { max-width:90vw; max-height:86vh; }
+    .lb-media img, .lb-media video { max-width:90vw; max-height:86vh; border-radius:6px; box-shadow:0 0 80px #c8922a22; display:block; }
+    .lb-arrow { position:absolute; top:50%; transform:translateY(-50%); width:56px; height:56px; border-radius:50%; background:#1a1610cc; border:1px solid var(--border); color:var(--text); font-size:1.6rem; display:flex; align-items:center; justify-content:center; cursor:pointer; transition:border-color 0.2s,color 0.2s; user-select:none; }
+    .lb-arrow:hover { color:var(--amber-glow); border-color:var(--amber-dim); }
+    .lb-prev { left:28px; } .lb-next { right:28px; }
+    .lb-close { position:absolute; top:24px; right:32px; }
+    .lb-counter { position:absolute; bottom:28px; left:50%; transform:translateX(-50%); font-size:0.78rem; letter-spacing:0.1em; color:var(--text-dim); }
+    details.about { border:1px solid var(--border); border-radius:6px; background:#110e0af2; max-width:760px; }
+    details.about summary { list-style:none; cursor:pointer; padding:20px 24px; font-family:'Space Grotesk',sans-serif; font-size:1rem; font-weight:500; color:var(--text); display:flex; align-items:center; justify-content:space-between; transition:color 0.2s; }
+    details.about summary::-webkit-details-marker { display:none; }
+    details.about summary::after { content:'+'; color:var(--amber); font-size:1.3rem; font-weight:300; transition:transform 0.3s; }
+    details.about[open] summary::after { transform:rotate(45deg); }
+    details.about summary:hover { color:var(--amber-glow); }
+    .about-body { padding:0 24px 24px; color:var(--text-dim); font-size:0.95rem; line-height:1.85; }
+    .about-body p { margin-bottom:14px; }
+    .about-body strong { color:var(--text); font-weight:400; }
+    .contact-links { display:flex; flex-direction:column; gap:4px; max-width:480px; }
+    .contact-link { display:flex; align-items:center; gap:16px; text-decoration:none; color:var(--text-dim); font-size:0.88rem; letter-spacing:0.04em; transition:color 0.2s; padding:14px 0; border-bottom:1px solid var(--border); }
+    .contact-link:hover { color:var(--amber-glow); }
+    .contact-link-label { font-size:0.65rem; letter-spacing:0.15em; text-transform:uppercase; color:var(--amber-dim); min-width:90px; }
+    footer { border-top:1px solid var(--border); padding:28px 48px; display:flex; justify-content:space-between; align-items:center; }
+    footer p { font-size:0.75rem; color:var(--text-dim); }
+    @media (max-width:768px) {
+      nav { padding:14px 22px; } .nav-links { gap:18px; } .nav-links a { font-size:0.7rem; }
+      .hero { padding:0 22px; } section { padding:70px 22px; }
+      .projects-grid { grid-template-columns:1fr; }
+      footer { padding:22px; flex-direction:column; gap:8px; text-align:center; }
+      .lb-arrow { width:44px; height:44px; font-size:1.3rem; } .lb-prev { left:10px; } .lb-next { right:10px; }
+    }
+    @media (prefers-reduced-motion:reduce) { * { animation-duration:0.01ms !important; transition-duration:0.01ms !important; } }
+  </style>
 </head>
 <body>
-
 <div id="nebula-bg"></div>
 <canvas id="stars"></canvas>
-
 <div class="page">
+  <nav>
+    <a class="logo" href="#">
+      <svg width="58" height="30" viewBox="0 0 58 30" xmlns="http://www.w3.org/2000/svg" aria-label="PO logo">
+        <defs>
+          <radialGradient id="orb" cx="38%" cy="35%" r="75%">
+            <stop offset="0%" stop-color="#ffd87a"/><stop offset="45%" stop-color="#e8a83a"/><stop offset="100%" stop-color="#5a3c0e"/>
+          </radialGradient>
+          <filter id="orbglow" x="-60%" y="-60%" width="220%" height="220%">
+            <feGaussianBlur stdDeviation="2.2" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+          </filter>
+        </defs>
+        <path d="M6 27 V3 h10.5 a7.5 7.5 0 0 1 0 15 H6" fill="none" stroke="#e0d0b8" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="42" cy="15" r="10" fill="url(#orb)" filter="url(#orbglow)"/>
+      </svg>
+      <span class="logo-text">Phillip Owor</span>
+    </a>
+    <div class="nav-links">
+      <a href="#work">Work</a><a href="#about">About</a><a href="#contact">Contact</a>
+    </div>
+  </nav>
+  <header class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-inner">
+      <p class="hero-eyebrow">Technical Artist &amp; XR Developer</p>
+      <h1 class="hero-name">Phillip <em>Owor</em></h1>
+      <p class="hero-desc">I build things at the edge of real and rendered — shaders, generative tools, immersive experiences.</p>
+      <div class="hero-cta"><a href="#work">See the work ↓</a></div>
+    </div>
+  </header>
+  <section id="work">
+    <h2 class="section-label">Projects</h2>
+    <p class="section-sub">Selected Work</p>
+    <div class="projects-grid" id="projects-grid"></div>
+  </section>
+  <section id="about">
+    <h2 class="section-label">About</h2>
+    <p class="section-sub">Who's behind this</p>
+    <details class="about">
+      <summary>About me</summary>
+      <div class="about-body">
+        <p>I'm a <strong>Technical Artist and XR Developer</strong> based in Germany, recently graduated from Hochschule Darmstadt's Augmented and Virtual Reality Design programme.</p>
+        <p>My bachelor thesis built a generative AI pipeline that produces Unity shader graphs from natural language — bridging the gap between what artists can describe and what real-time engines can run.</p>
+        <p>I work mostly in <strong>Unity and C#</strong>, with a focus on shaders, real-time rendering, and tools that make creative work faster.</p>
+      </div>
+    </details>
+  </section>
+  <section id="contact">
+    <h2 class="section-label">Contact</h2>
+    <p class="section-sub">Get in touch</p>
+    <div class="contact-links">
+      <a class="contact-link" href="mailto:YOUR@EMAIL.COM"><span class="contact-link-label">Email</span> YOUR@EMAIL.COM</a>
+      <a class="contact-link" href="https://www.artstation.com/philip-0wor" target="_blank" rel="noopener"><span class="contact-link-label">ArtStation</span> philip-0wor</a>
+      <a class="contact-link" href="https://linkedin.com/in/YOURPROFILE" target="_blank" rel="noopener"><span class="contact-link-label">LinkedIn</span> Phillip Owor</a>
+      <a class="contact-link" href="https://github.com/PhillipOwor" target="_blank" rel="noopener"><span class="contact-link-label">GitHub</span> PhillipOwor</a>
+    </div>
+  </section>
+  <footer>
+    <p>© 2026 Phillip Owor</p>
+    <p>Built by hand. Deployed on GitHub Pages.</p>
+  </footer>
+</div>
 
-    <nav>
-        <a class="logo" href="#">
-            <svg width="58" height="30" viewBox="0 0 58 30" xmlns="http://www.w3.org/2000/svg" aria-label="PO logo">
-                <defs>
-                    <radialGradient id="orb" cx="38%" cy="35%" r="75%">
-                        <stop offset="0%" stop-color="#ffd87a"/>
-                        <stop offset="45%" stop-color="#e8a83a"/>
-                        <stop offset="100%" stop-color="#5a3c0e"/>
-                    </radialGradient>
-                    <filter id="orbglow" x="-60%" y="-60%" width="220%" height="220%">
-                        <feGaussianBlur stdDeviation="2.2" result="b"/>
-                        <feMerge>
-                            <feMergeNode in="b"/>
-                            <feMergeNode in="SourceGraphic"/>
-                        </feMerge>
-                    </filter>
-                </defs>
-                <path d="M6 27 V3 h10.5 a7.5 7.5 0 0 1 0 15 H6"
-                      fill="none" stroke="#e0d0b8" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
-                <circle cx="42" cy="15" r="10" fill="url(#orb)" filter="url(#orbglow)"/>
-            </svg>
-            <span class="logo-text">Phillip Owor</span>
-        </a>
-        <div class="nav-links">
-            <a href="#work">Work</a>
-            <a href="#about">About</a>
-            <a href="#contact">Contact</a>
-        </div>
-    </nav>
+<div id="project-modal">
+  <div class="modal-close" id="modal-close">×</div>
+  <div class="modal-content" id="modal-content"></div>
+</div>
 
-    <!-- ── HERO ── -->
-    <header class="hero">
-        <div class="hero-bg"></div>
-        <div class="hero-inner">
-            <p class="hero-eyebrow">Technical Artist &amp; XR Developer</p>
-            <h1 class="hero-name">Phillip <em>Owor</em></h1>
-            <p class="hero-desc">
-                I build things at the edge of real and rendered —
-                shaders, generative tools, immersive experiences.
-            </p>
-            <div class="hero-cta">
-                <a href="#work">See the work ↓</a>
-            </div>
-        </div>
-    </header>
-
-    <!-- ── WORK ── -->
-    <section id="work">
-        <h2 class="section-label">Projects</h2>
-        <p class="section-sub">Selected Work</p>
-        <div class="projects-grid">
-
-            <!--
-              TO ADD A PROJECT:
-              1. Drop video in assets/, e.g. assets/shadergraph.mp4
-              2. Drop thumbnail in assets/, e.g. assets/shadergraph_thumb.jpg
-              3. Uncomment the img + video lines and set src
-            -->
-
-            <div class="project-card">
-                <div class="card-inner">
-                    <div class="card-placeholder" style="background: linear-gradient(135deg, #1a1208 0%, #2a1e0a 50%, #0e0c08 100%);"></div>
-                    <!-- <img class="card-thumb" src="assets/shadergraph_thumb.jpg" alt="AI Shader Graph Generator" /> -->
-                    <!-- <video class="card-video" src="assets/shadergraph.mp4" muted loop playsinline preload="none"></video> -->
-                    <div class="card-overlay"></div>
-                    <div class="card-info">
-                        <p class="card-title">AI Shader Graph Generator</p>
-                        <p class="card-meta">Bachelor Thesis (2026) — Unity · Generative AI · C#</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="project-card">
-                <div class="card-inner">
-                    <div class="card-placeholder" style="background: linear-gradient(135deg, #0a1018 0%, #0e1a2a 50%, #080e14 100%);"></div>
-                    <div class="card-overlay"></div>
-                    <div class="card-info">
-                        <p class="card-title">Project Two</p>
-                        <p class="card-meta">Year — Type (Engine)</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="project-card">
-                <div class="card-inner">
-                    <div class="card-placeholder" style="background: linear-gradient(135deg, #100a18 0%, #1e0a2a 50%, #0c0810 100%);"></div>
-                    <div class="card-overlay"></div>
-                    <div class="card-info">
-                        <p class="card-title">Project Three</p>
-                        <p class="card-meta">Year — Type (Engine)</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="project-card">
-                <div class="card-inner">
-                    <div class="card-placeholder" style="background: linear-gradient(135deg, #100e08 0%, #1e1a0a 50%, #0c0a06 100%);"></div>
-                    <div class="card-overlay"></div>
-                    <div class="card-info">
-                        <p class="card-title">Project Four</p>
-                        <p class="card-meta">Year — Type (Engine)</p>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-    </section>
-
-    <!-- ── ABOUT ── -->
-    <section id="about">
-        <h2 class="section-label">About</h2>
-        <p class="section-sub">Who's behind this</p>
-        <details class="about">
-            <summary>About me</summary>
-            <div class="about-body">
-                <p>
-                    I'm a <strong>Technical Artist and XR Developer</strong> based in Germany, recently
-                    graduated from Hochschule Darmstadt's Augmented and Virtual Reality Design programme.
-                </p>
-                <p>
-                    My bachelor thesis built a generative AI pipeline that produces Unity shader graphs
-                    from natural language — bridging the gap between what artists can describe and what
-                    real-time engines can run.
-                </p>
-                <p>
-                    I work mostly in <strong>Unity and C#</strong>, with a focus on shaders, real-time
-                    rendering, and tools that make creative work faster.
-                </p>
-            </div>
-        </details>
-    </section>
-
-    <!-- ── CONTACT ── -->
-    <section id="contact">
-        <h2 class="section-label">Contact</h2>
-        <p class="section-sub">Get in touch</p>
-        <div class="contact-links">
-            <a class="contact-link" href="mailto:YOUR@EMAIL.COM">
-                <span class="contact-link-label">Email</span>
-                philipowor97@gmail.com
-            </a>
-            <a class="contact-link" href="https://www.artstation.com/philip-0wor" target="_blank" rel="noopener">
-                <span class="contact-link-label">ArtStation</span>
-                https://www.artstation.com/philip-0wor
-            </a>
-            <a class="contact-link" href="https://linkedin.com/in/YOURPROFILE" target="_blank" rel="noopener">
-                <span class="contact-link-label">LinkedIn</span>
-                https://www.linkedin.com/in/phillip-owor-9891122b9/
-            </a>
-            <a class="contact-link" href="https://github.com/YOURUSERNAME" target="_blank" rel="noopener">
-                <span class="contact-link-label">GitHub</span>
-                https://github.com/PhillipOwor
-            </a>
-        </div>
-    </section>
-
-    <footer>
-        <p>© 2026 Phillip Owor</p>
-        <p>Built by hand. Deployed on GitHub Pages.</p>
-    </footer>
-
+<div id="lightbox">
+  <div class="lb-arrow lb-close" id="lb-close">×</div>
+  <div class="lb-arrow lb-prev" id="lb-prev">‹</div>
+  <div class="lb-media" id="lb-media"></div>
+  <div class="lb-arrow lb-next" id="lb-next">›</div>
+  <div class="lb-counter" id="lb-counter"></div>
 </div>
 
 <script>
-    // ── INTERACTIVE STAR FIELD with click supernovas ──
-    const canvas = document.getElementById('stars');
-    const ctx = canvas.getContext('2d');
-    let stars = [];
-    let novas = [];   // active supernova explosions
-    let W, H;
-
-    function resize() {
-        W = canvas.width  = window.innerWidth;
-        H = canvas.height = window.innerHeight;
+  /* ============================================================
+     PROJECT DATA — add a project by copying one { } block.
+     folder  : subfolder in assets/ (lowercase, no spaces)
+     thumb   : static card image (filename inside that folder)
+     hover   : small local video that plays on card hover (or null)
+     youtube : trailer ID (part after youtu.be/) or null
+     desc    : array of paragraphs (HTML ok); [] = blank
+     links   : array of { label, url }
+     gallery : array of image/video filenames
+     ============================================================ */
+  const PROJECTS = [
+    {
+      folder: "p6-battlewall",
+      title: "Battlewall",
+      meta: "2025 — Mixed Reality Game · Unity · Shaders · VFX",
+      thumb: "battlewall-thumbnail.png",
+      hover: "battlewall-map-loop.mp4",
+      youtube: "jbxicspHamQ",
+      desc: [ "<em>Description coming soon.</em>" ],
+      links: [ { label: "Gameplay Video", url: "https://youtu.be/qZLnhWgWdC4" } ],
+      gallery: [
+        "battlewall-map-loop.mp4",
+        "battlewall-river-shader.mp4",
+        "battlewall-unit-aura-vfx.mp4",
+        "p6-world-events-1.mp4",
+        "philip-owor-image-2025-08-06-205117520.webp",
+        "philip-owor-image-2025-08-07-000403732.webp",
+        "philip-owor-screenshot-2025-07-26-194525.webp",
+        "philip-owor-screenshot-2025-07-26-203523.webp",
+        "philip-owor-screenshot-2025-08-06-215058.webp",
+        "philip-owor-screenshot-2025-08-06-215147.webp",
+        "philip-owor-screenshot-2025-08-06-215331.webp"
+      ]
+    },
+    {
+      folder: "p5-goethe-puppet-theater",
+      title: "Goethe's Puppet Theater",
+      meta: "2025 — Mixed Reality · Unity · Mocap",
+      thumb: "p5-thumbnail.png",
+      hover: "mephisto-animation.mp4",
+      youtube: "ETtcreG9JTk",
+      desc: [ "<em>Description coming soon.</em>" ],
+      links: [],
+      gallery: [
+        "mephisto-animation.mp4",
+        "philip-owor-step-1-pick-up-goethe-puppet.webp",
+        "philip-owor-step-2-place-puppet-in-the-theater.webp",
+        "philip-owor-step-3-see-other-puppets-roaming-on-the-floor.webp",
+        "philip-owor-step-4-pick-up-a-roaming-puppet.webp",
+        "philip-owor-step-5-chatgpt-generates-and-acts-out-a-2-minute-p.webp",
+        "philip-owor-step-6-replace-puppets-once-the-play-is-over.webp",
+        "philip-owor-charlotte-front-and-side-view-artstation.webp",
+        "philip-owor-charlotte-onesided-allinone.webp",
+        "philip-owor-image-2025-08-05-164439223.jpg",
+        "philip-owor-image-2025-08-05-180915012.webp",
+        "philip-owor-image-2025-08-05-210519724.webp",
+        "philip-owor-image-2025-08-05-211009301.webp",
+        "philip-owor-image-2025-08-05-211106586.webp",
+        "philip-owor-image-2025-08-05-211147390.jpg"
+      ]
     }
+  ];
 
-    function initStars(n = 220) {
-        stars = Array.from({ length: n }, () => ({
-            x: Math.random() * W,
-            y: Math.random() * H,
-            r: Math.random() * 1.0 + 0.2,
-            warm: Math.random() < 0.15,
-            speed: Math.random() * 0.06 + 0.01,
-            twinkle: Math.random() * Math.PI * 2,
-            twinkleSpeed: Math.random() * 0.008 + 0.002,
-            alpha: Math.random() * 0.45 + 0.2,
-        }));
+  const isVideo = f => /\.(mp4|webm|mov)$/i.test(f);
+  const assetPath = (proj, file) => `assets/${proj.folder}/${file}`;
+
+  const grid = document.getElementById('projects-grid');
+  PROJECTS.forEach((proj, i) => {
+    const card = document.createElement('div');
+    card.className = 'project-card';
+    const hoverVid = proj.hover
+      ? `<video class="card-video" src="${assetPath(proj, proj.hover)}" muted loop playsinline preload="none"></video>` : '';
+    card.innerHTML = `
+      <div class="card-inner">
+        <img class="card-thumb" src="${assetPath(proj, proj.thumb)}" alt="${proj.title}" />
+        ${hoverVid}
+        <div class="card-overlay"></div>
+        <div class="card-info">
+          <p class="card-title">${proj.title}</p>
+          <p class="card-meta">${proj.meta}</p>
+        </div>
+      </div>`;
+    const v = card.querySelector('.card-video');
+    if (v) {
+      card.addEventListener('mouseenter', () => v.play());
+      card.addEventListener('mouseleave', () => { v.pause(); v.currentTime = 0; });
     }
+    card.addEventListener('click', () => openProject(i));
+    grid.appendChild(card);
+  });
 
-    function spawnNova(x, y) {
-        const particles = [];
-        const count = 26;
-        for (let i = 0; i < count; i++) {
-            const angle = (Math.PI * 2 * i) / count + Math.random() * 0.3;
-            const speed = 1.2 + Math.random() * 2.4;
-            particles.push({
-                x, y,
-                vx: Math.cos(angle) * speed,
-                vy: Math.sin(angle) * speed,
-                r: Math.random() * 1.4 + 0.4,
-                warm: Math.random() < 0.6,
-                life: 1,
-            });
-        }
-        novas.push({ x, y, age: 0, particles });
-        // keep it restrained: max 3 simultaneous novas
-        if (novas.length > 3) novas.shift();
-    }
+  const modal = document.getElementById('project-modal');
+  const modalContent = document.getElementById('modal-content');
+  let currentGallery = [];
 
-    function drawNovas() {
-        for (let i = novas.length - 1; i >= 0; i--) {
-            const n = novas[i];
-            n.age += 0.022;
-
-            // central flash — quick bright bloom that fades fast
-            if (n.age < 0.35) {
-                const flashA = (0.35 - n.age) / 0.35;
-                const flashR = 4 + n.age * 90;
-                const g = ctx.createRadialGradient(n.x, n.y, 0, n.x, n.y, flashR);
-                g.addColorStop(0, `rgba(255, 220, 140, ${0.55 * flashA})`);
-                g.addColorStop(0.4, `rgba(232, 168, 58, ${0.25 * flashA})`);
-                g.addColorStop(1, 'rgba(232, 168, 58, 0)');
-                ctx.beginPath();
-                ctx.arc(n.x, n.y, flashR, 0, Math.PI * 2);
-                ctx.fillStyle = g;
-                ctx.fill();
-            }
-
-            // expanding ring
-            if (n.age < 0.8) {
-                const ringA = (0.8 - n.age) / 0.8 * 0.4;
-                ctx.beginPath();
-                ctx.arc(n.x, n.y, n.age * 110, 0, Math.PI * 2);
-                ctx.strokeStyle = `rgba(232, 168, 58, ${ringA})`;
-                ctx.lineWidth = 1;
-                ctx.stroke();
-            }
-
-            // particles
-            n.particles.forEach(p => {
-                p.x += p.vx;
-                p.y += p.vy;
-                p.vx *= 0.97;
-                p.vy *= 0.97;
-                p.life -= 0.016;
-                if (p.life > 0) {
-                    ctx.beginPath();
-                    ctx.arc(p.x, p.y, p.r * p.life, 0, Math.PI * 2);
-                    ctx.fillStyle = p.warm
-                        ? `rgba(232, 168, 58, ${p.life * 0.9})`
-                        : `rgba(240, 228, 210, ${p.life * 0.9})`;
-                    ctx.fill();
-                }
-            });
-
-            if (n.age > 1.1) novas.splice(i, 1);
-        }
-    }
-
-    function draw() {
-        ctx.clearRect(0, 0, W, H);
-        stars.forEach(s => {
-            s.twinkle += s.twinkleSpeed;
-            const a = s.alpha * (0.7 + 0.3 * Math.sin(s.twinkle));
-            ctx.beginPath();
-            ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
-            ctx.fillStyle = s.warm ? `rgba(220,160,60,${a})` : `rgba(230,218,200,${a})`;
-            ctx.fill();
-            s.x -= s.speed;
-            if (s.x < -2) s.x = W + 2;
-        });
-        drawNovas();
-        requestAnimationFrame(draw);
-    }
-
-    resize(); initStars(); draw();
-    window.addEventListener('resize', () => { resize(); initStars(); });
-
-    // Click anywhere on the canvas background = mini supernova.
-    // (The canvas sits behind .page content; content areas keep their own pointer events.)
-    canvas.addEventListener('click', e => spawnNova(e.clientX, e.clientY));
-
-    // ── VIDEO HOVER ──
-    document.querySelectorAll('.project-card').forEach(card => {
-        const video = card.querySelector('.card-video');
-        if (!video) return;
-        card.addEventListener('mouseenter', () => video.play());
-        card.addEventListener('mouseleave', () => { video.pause(); video.currentTime = 0; });
+  function openProject(i) {
+    const p = PROJECTS[i];
+    currentGallery = p.gallery.map(f => assetPath(p, f));
+    const trailer = p.youtube
+      ? `<div class="modal-trailer"><iframe src="https://www.youtube.com/embed/${p.youtube}" title="${p.title} trailer" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>` : '';
+    const desc = p.desc.length ? `<div class="modal-desc">${p.desc.map(t => `<p>${t}</p>`).join('')}</div>` : '';
+    const links = p.links.length ? `<div class="modal-links">${p.links.map(l => `<a class="modal-link" href="${l.url}" target="_blank" rel="noopener">${l.label} ↗</a>`).join('')}</div>` : '';
+    const galleryThumbs = p.gallery.map((f, idx) => {
+      const path = assetPath(p, f);
+      const media = isVideo(f)
+        ? `<video src="${path}" muted loop playsinline preload="none" onmouseover="this.play()" onmouseout="this.pause();this.currentTime=0"></video>`
+        : `<img src="${path}" alt="${p.title} image ${idx + 1}" loading="lazy" />`;
+      return `<div class="gallery-thumb" data-idx="${idx}">${media}</div>`;
+    }).join('');
+    modalContent.innerHTML = `
+      <h2 class="modal-title">${p.title}</h2>
+      <p class="modal-meta">${p.meta}</p>
+      ${trailer}${desc}${links}
+      <p class="modal-gallery-label">Gallery</p>
+      <div class="modal-gallery">${galleryThumbs}</div>`;
+    modalContent.querySelectorAll('.gallery-thumb').forEach(t => {
+      t.addEventListener('click', () => openLightbox(parseInt(t.dataset.idx)));
     });
+    modal.classList.add('open');
+    modal.scrollTop = 0;
+    document.body.style.overflow = 'hidden';
+  }
+  function closeProject() {
+    modal.classList.remove('open');
+    modalContent.innerHTML = '';
+    document.body.style.overflow = '';
+  }
+  document.getElementById('modal-close').addEventListener('click', closeProject);
+
+  const lightbox = document.getElementById('lightbox');
+  const lbMedia = document.getElementById('lb-media');
+  const lbCounter = document.getElementById('lb-counter');
+  let lbIndex = 0;
+  function renderLightbox() {
+    const path = currentGallery[lbIndex];
+    lbMedia.innerHTML = isVideo(path)
+      ? `<video src="${path}" autoplay muted loop playsinline controls></video>`
+      : `<img src="${path}" alt="Gallery image ${lbIndex + 1}" />`;
+    lbCounter.textContent = `${lbIndex + 1} / ${currentGallery.length}`;
+  }
+  function openLightbox(idx) { lbIndex = idx; renderLightbox(); lightbox.classList.add('open'); }
+  function closeLightbox() { lightbox.classList.remove('open'); lbMedia.innerHTML = ''; }
+  function nextImg() { lbIndex = (lbIndex + 1) % currentGallery.length; renderLightbox(); }
+  function prevImg() { lbIndex = (lbIndex - 1 + currentGallery.length) % currentGallery.length; renderLightbox(); }
+  document.getElementById('lb-close').addEventListener('click', closeLightbox);
+  document.getElementById('lb-next').addEventListener('click', e => { e.stopPropagation(); nextImg(); });
+  document.getElementById('lb-prev').addEventListener('click', e => { e.stopPropagation(); prevImg(); });
+  lightbox.addEventListener('click', e => { if (e.target === lightbox) closeLightbox(); });
+  document.addEventListener('keydown', e => {
+    if (lightbox.classList.contains('open')) {
+      if (e.key === 'ArrowRight') nextImg();
+      else if (e.key === 'ArrowLeft') prevImg();
+      else if (e.key === 'Escape') closeLightbox();
+    } else if (modal.classList.contains('open') && e.key === 'Escape') closeProject();
+  });
+
+  const canvas = document.getElementById('stars');
+  const ctx = canvas.getContext('2d');
+  let stars = [], novas = [], W, H;
+  function resize() { W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
+  function initStars(n = 220) {
+    stars = Array.from({ length: n }, () => ({
+      x: Math.random()*W, y: Math.random()*H, r: Math.random()*1.0+0.2,
+      warm: Math.random()<0.15, speed: Math.random()*0.06+0.01,
+      twinkle: Math.random()*Math.PI*2, twinkleSpeed: Math.random()*0.008+0.002, alpha: Math.random()*0.45+0.2,
+    }));
+  }
+  function spawnNova(x, y) {
+    const particles = [];
+    for (let i = 0; i < 26; i++) {
+      const angle = (Math.PI*2*i)/26 + Math.random()*0.3;
+      const speed = 1.2 + Math.random()*2.4;
+      particles.push({ x, y, vx: Math.cos(angle)*speed, vy: Math.sin(angle)*speed, r: Math.random()*1.4+0.4, warm: Math.random()<0.6, life: 1 });
+    }
+    novas.push({ x, y, age: 0, particles });
+    if (novas.length > 3) novas.shift();
+  }
+  function drawNovas() {
+    for (let i = novas.length-1; i >= 0; i--) {
+      const n = novas[i]; n.age += 0.022;
+      if (n.age < 0.35) {
+        const fa = (0.35-n.age)/0.35, fr = 4 + n.age*90;
+        const g = ctx.createRadialGradient(n.x,n.y,0,n.x,n.y,fr);
+        g.addColorStop(0, `rgba(255,220,140,${0.55*fa})`); g.addColorStop(0.4, `rgba(232,168,58,${0.25*fa})`); g.addColorStop(1, 'rgba(232,168,58,0)');
+        ctx.beginPath(); ctx.arc(n.x,n.y,fr,0,Math.PI*2); ctx.fillStyle = g; ctx.fill();
+      }
+      if (n.age < 0.8) {
+        const ra = (0.8-n.age)/0.8*0.4;
+        ctx.beginPath(); ctx.arc(n.x,n.y,n.age*110,0,Math.PI*2); ctx.strokeStyle = `rgba(232,168,58,${ra})`; ctx.lineWidth = 1; ctx.stroke();
+      }
+      n.particles.forEach(p => {
+        p.x+=p.vx; p.y+=p.vy; p.vx*=0.97; p.vy*=0.97; p.life-=0.016;
+        if (p.life > 0) { ctx.beginPath(); ctx.arc(p.x,p.y,p.r*p.life,0,Math.PI*2); ctx.fillStyle = p.warm ? `rgba(232,168,58,${p.life*0.9})` : `rgba(240,228,210,${p.life*0.9})`; ctx.fill(); }
+      });
+      if (n.age > 1.1) novas.splice(i,1);
+    }
+  }
+  function draw() {
+    ctx.clearRect(0,0,W,H);
+    stars.forEach(s => {
+      s.twinkle += s.twinkleSpeed;
+      const a = s.alpha*(0.7+0.3*Math.sin(s.twinkle));
+      ctx.beginPath(); ctx.arc(s.x,s.y,s.r,0,Math.PI*2); ctx.fillStyle = s.warm ? `rgba(220,160,60,${a})` : `rgba(230,218,200,${a})`; ctx.fill();
+      s.x -= s.speed; if (s.x < -2) s.x = W+2;
+    });
+    drawNovas();
+    requestAnimationFrame(draw);
+  }
+  resize(); initStars(); draw();
+  window.addEventListener('resize', () => { resize(); initStars(); });
+  canvas.addEventListener('click', e => spawnNova(e.clientX, e.clientY));
 </script>
 </body>
 </html>
