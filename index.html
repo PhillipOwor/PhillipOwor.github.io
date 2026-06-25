@@ -18,7 +18,7 @@
     html { scroll-behavior: smooth; }
     body { background: var(--bg); color: var(--text); font-family:'Inter',sans-serif; font-weight:300; line-height:1.7; overflow-x:hidden; }
 
-    #nebula-bg { position:fixed; inset:0; background-image:url('assets/site/render_1.jpg'); background-size:cover; background-position:center; opacity:0.11; pointer-events:none; z-index:0; }
+    #nebula-bg { position:fixed; inset:0; background-image:url('assets/site/render_1.jpg'); background-size:cover; background-position:center; opacity:0.05; pointer-events:none; z-index:0; }
     #stars { position:fixed; inset:0; z-index:1; }
 
     .page { position:relative; z-index:2; pointer-events:none; }
@@ -332,12 +332,74 @@
         { name: "Substance Painter", icon: "substance-painter.png" }
       ],
       contributions: [
-        { file: "mephisto-animation.mp4", caption: "" },
-        { file: "philip-owor-step-1-pick-up-goethe-puppet.webp", caption: "" },
-        { file: "philip-owor-step-2-place-puppet-in-the-theater.webp", caption: "" },
-        { file: "philip-owor-step-3-see-other-puppets-roaming-on-the-floor.webp", caption: "" },
-        { file: "philip-owor-charlotte-front-and-side-view-artstation.webp", caption: "" },
-        { file: "philip-owor-charlotte-onesided-allinone.webp", caption: "" }
+        { file: "0-mephisto-animation.mp4", caption: "" },
+        { file: "1-charlotte-progress.webp", caption: "" },
+        { file: "2-charlotte-profile-sketch.webp", caption: "" },
+        { file: "3-charlotte-base-model.webp", caption: "" },
+        { file: "4-charlotte-base-model.webp", caption: "" },
+        { file: "5-charlotte-skirt-textured.jpg", caption: "" },
+        { file: "6-charlotte-rotisserie.mp4", caption: "" },
+        { file: "7-charlotte-uvs.webp", caption: "" },
+        { file: "8-charlotte-texture-maps.webp", caption: "" },
+        { file: "9-gpt-curtains.mp4", caption: "" }
+      ]
+    },
+    {
+      id: "mountain-range",
+      folder: "proj-mountain-range",
+      title: "Mountain Range",
+      year: "2025 — Real-Time Environment",
+      tags: ["Unreal Engine 5","Lighting","Cinematics"],
+      thumb: "mountain-range-1.webp",
+      hover: null,
+      screenshot: "mountain-range-1.webp",
+      desc: [
+        "A real-time environment built in Unreal Engine 5 — a mountain range with a river running through the valley and a house perched on one of the banks.",
+        "The piece was an exercise in lighting scenes and composing cinematic shots. I assembled the environment in-engine and rendered camera animations through it, learning Unreal's Sequencer for the first time in the process."
+      ],
+      videos: [],
+      tools: [
+        { name: "Unreal Engine 5", icon: "unreal-engine.png" }
+      ],
+      contributions: [
+        { file: "mountain-range-1.webp", caption: "" },
+        { file: "mountain-range-2.webp", caption: "" },
+        { file: "mountain-range-3.webp", caption: "" },
+        { file: "mountain-range-4.webp", caption: "" },
+        { file: "mountain-range-5.webp", caption: "" },
+        { file: "mountain-range-6.webp", caption: "" },
+        { file: "mountain-range-7.webp", caption: "" }
+      ]
+    },
+    {
+      id: "space-garden",
+      folder: "proj-space-garden",
+      title: "Dystopian Space Garden",
+      year: "2024 — Real-Time Environment (WIP)",
+      tags: ["Unreal Engine 5","Environment Art","Concept"],
+      thumb: "4-space-garden-entrance.jpg",
+      hover: null,
+      screenshot: "4-space-garden-entrance.jpg",
+      desc: [
+        "In the furthest corner of the universe, a lone explorer lies stranded in a futuristic dystopian city suspended in another dimension of the cosmos — arriving through a Bifrost-like portal, then trapped when it malfunctioned and damaged the ship. The idea is simply to stroll the garden and take in the sights and sounds while the ship and portal are repaired.",
+        "I've always had fantastical, otherworldly dreams, and this environment came from one of them — I wanted to capture its ethereal feeling in 3D. Early blockouts had wildly off scaling, so I rebuilt using small cubes and character models as scale references.",
+        "The garden itself — meant to give the scene a sense of tranquility — was inspired by the architecture of Doha's Hamad International Airport.",
+        "<em>A work in progress.</em>"
+      ],
+      videos: [],
+      tools: [
+        { name: "Unreal Engine 5", icon: "unreal-engine.png" }
+      ],
+      contributions: [
+        { file: "1-space-garden-fountain.mp4", caption: "" },
+        { file: "2-space-garden-fountain.mp4", caption: "" },
+        { file: "3-space-garden-fountain.mp4", caption: "" },
+        { file: "4-space-garden-entrance.jpg", caption: "" },
+        { file: "5-space-garden-lounge-area.mp4", caption: "" },
+        { file: "6-space-garden-wooden-bench.mp4", caption: "" },
+        { file: "7-space-garden-globe.jpg", caption: "" },
+        { file: "8-space-garden-globe.jpg", caption: "" },
+        { file: "9-space-garden-globe.jpg", caption: "" }
       ]
     }
   ];
@@ -438,7 +500,7 @@
       <div class="pp-gallery">${p.contributions.map((c,i) => {
         const path = ap(p,c.file);
         const m = isVideo(c.file)
-          ? `<video src="${path}" muted loop playsinline preload="none" onmouseover="this.play()" onmouseout="this.pause();this.currentTime=0"></video>`
+          ? `<video src="${path}" muted loop playsinline preload="metadata" onmouseover="this.play()" onmouseout="this.pause();this.currentTime=0"></video>`
           : `<img src="${path}" alt="${p.title} ${i+1}" loading="lazy"/>`;
         return `<div class="pp-gthumb" data-idx="${i}">${m}</div>`;
       }).join('')}</div>` : '';
