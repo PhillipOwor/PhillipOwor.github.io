@@ -18,7 +18,7 @@
     html { scroll-behavior: smooth; }
     body { background: var(--bg); color: var(--text); font-family:'Inter',sans-serif; font-weight:300; line-height:1.7; overflow-x:hidden; }
 
-    #nebula-bg { position:fixed; inset:0; background-image:url('assets/render_1.jpg'); background-size:cover; background-position:center; opacity:0.11; pointer-events:none; z-index:0; }
+    #nebula-bg { position:fixed; inset:0; background-image:url('assets/site/render_1.jpg'); background-size:cover; background-position:center; opacity:0.11; pointer-events:none; z-index:0; }
     #stars { position:fixed; inset:0; z-index:1; }
 
     .page { position:relative; z-index:2; pointer-events:none; }
@@ -35,7 +35,7 @@
 
     /* HERO — text left, marquee fades in from the right */
     .hero { position:relative; min-height:88vh; display:flex; align-items:center; overflow:hidden; }
-    .hero-inner { position:relative; z-index:3; width:100%; max-width:var(--maxw); margin:0 auto; padding:0 32px; }
+    .hero-inner { position:relative; z-index:3; width:100%; max-width:620px; margin:0; padding:0 32px 0 64px; }
     .hero-eyebrow { font-size:0.75rem; letter-spacing:0.2em; text-transform:uppercase; color:var(--amber-glow); margin-bottom:22px; opacity:0; animation:fade-up 0.8s 0.3s forwards; }
     .hero-name { font-family:'Space Grotesk',sans-serif; font-size:clamp(2.8rem,7vw,5.2rem); font-weight:300; line-height:1.05; letter-spacing:-0.02em; color:#f2e8d8; margin-bottom:22px; opacity:0; animation:fade-up 0.8s 0.5s forwards; }
     .hero-name em { font-style:normal; color:var(--amber-glow); }
@@ -46,10 +46,10 @@
     @keyframes fade-up { from{opacity:0;transform:translateY(16px);} to{opacity:1;transform:translateY(0);} }
 
     /* MARQUEE — anchored to the right portion of the hero, scrolls, fades into the text on its left */
-    .hero-marquee { position:absolute; top:50%; right:0; transform:translateY(-50%); height:340px; width:62%; overflow:hidden; z-index:1; -webkit-mask-image:linear-gradient(to right, transparent 0%, #000 22%, #000 100%); mask-image:linear-gradient(to right, transparent 0%, #000 22%, #000 100%); }
+    .hero-marquee { position:absolute; top:50%; right:0; transform:translateY(-50%); height:440px; width:66%; overflow:hidden; z-index:1; -webkit-mask-image:linear-gradient(to right, transparent 0%, #000 20%, #000 100%); mask-image:linear-gradient(to right, transparent 0%, #000 20%, #000 100%); }
     .marquee { display:flex; height:100%; width:max-content; animation:scroll-strip 40s linear infinite; }
-    .marquee-item { position:relative; height:100%; width:300px; flex:none; transform:skewX(-9deg); overflow:hidden; border-left:1px solid #00000055; }
-    .marquee-item > * { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%) skewX(9deg) scale(1.25); min-width:118%; min-height:118%; object-fit:cover; }
+    .marquee-item { position:relative; height:100%; width:460px; flex:none; transform:skewX(-9deg); overflow:hidden; border-left:1px solid #00000055; }
+    .marquee-item > * { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%) skewX(9deg) scale(1.15); min-width:112%; min-height:112%; object-fit:cover; }
     @keyframes scroll-strip { from{transform:translateX(0);} to{transform:translateX(-50%);} }
 
     /* SECTIONS */
@@ -61,7 +61,7 @@
     /* PROJECT GRID — 2 columns */
     .projects-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:26px; }
     .project-card { position:relative; aspect-ratio:16/9; cursor:pointer; }
-    .project-card::before { content:''; position:absolute; inset:-8px; background-image:url('assets/render_1.jpg'); background-size:cover; background-position:center; border-radius:10px; opacity:0; transition:opacity 0.35s ease; z-index:0; }
+    .project-card::before { content:''; position:absolute; inset:-8px; background-image:url('assets/site/render_1.jpg'); background-size:cover; background-position:center; border-radius:10px; opacity:0; transition:opacity 0.35s ease; z-index:0; }
     .project-card:hover::before { opacity:1; box-shadow:0 0 28px 6px #c8922a55, 0 0 60px 14px #c8922a22; }
     .card-inner { position:absolute; inset:0; overflow:hidden; border-radius:6px; background:var(--bg3); border:1px solid var(--amber-dim); transition:border-color 0.35s ease; z-index:1; }
     .project-card:hover .card-inner { border-color:transparent; }
@@ -101,20 +101,31 @@
     footer p { font-size:0.75rem; color:var(--text-dim); }
 
     /* ===== PROJECT PAGE ===== */
-    #project-page { position:fixed; inset:0; z-index:300; display:none; overflow-y:auto; background:var(--bg); pointer-events:auto; }
+    #project-page { position:fixed; inset:0; z-index:300; display:none; overflow-y:scroll; -webkit-overflow-scrolling:touch; background:var(--bg); pointer-events:auto; }
     #project-page.open { display:block; }
-    #project-page .pp-bg { position:fixed; inset:0; background-image:url('assets/render_1.jpg'); background-size:cover; background-position:center; opacity:0.10; z-index:0; }
-    #project-page .pp-bg-screenshot { position:fixed; inset:0; background-size:cover; background-position:center; opacity:0.16; z-index:0; filter:blur(2px); }
-    .pp-scrim { position:fixed; inset:0; background:linear-gradient(to bottom,#0a0806e8,#0a0806f6); z-index:1; }
-    .pp-content { position:relative; z-index:2; max-width:820px; margin:0 auto; padding:90px 28px 120px; }
+    #project-page .pp-bg { position:fixed; inset:0; background-image:url('assets/site/render_1.jpg'); background-size:cover; background-position:center; opacity:0.10; z-index:0; pointer-events:none; }
+    #project-page .pp-bg-screenshot { position:fixed; inset:0; background-size:cover; background-position:center; opacity:0.16; z-index:0; filter:blur(2px); pointer-events:none; }
+    .pp-scrim { position:fixed; inset:0; background:linear-gradient(to bottom,#0a0806e8,#0a0806f6); z-index:1; pointer-events:none; }
+    .pp-content { position:relative; z-index:2; max-width:820px; margin:0 auto; padding:90px 28px 120px; min-height:100vh; }
     .pp-close { position:fixed; top:24px; right:32px; z-index:320; width:46px; height:46px; border-radius:50%; background:#1a1610dd; border:1px solid var(--border); color:var(--text); font-size:1.5rem; line-height:1; display:flex; align-items:center; justify-content:center; cursor:pointer; transition:border-color 0.2s,color 0.2s; }
     .pp-close:hover { color:var(--amber-glow); border-color:var(--amber-dim); }
+    .pp-back { position:fixed; top:38px; right:92px; z-index:320; display:flex; align-items:center; gap:8px; font-size:0.78rem; letter-spacing:0.14em; text-transform:uppercase; color:var(--amber-glow); cursor:pointer; transition:color 0.2s,gap 0.2s; background:none; border:none; font-family:'Inter',sans-serif; }
+    .pp-back:hover { color:#ffc860; gap:12px; }
+    .pp-back .arr { font-size:1.05rem; line-height:1; }
     .pp-title { font-family:'Space Grotesk',sans-serif; font-size:2.6rem; font-weight:400; color:#f2e8d8; margin-bottom:8px; line-height:1.05; }
     .pp-year { font-size:0.8rem; letter-spacing:0.14em; text-transform:uppercase; color:var(--amber); margin-bottom:24px; }
     .pp-tags { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:40px; }
     .pp-tag { font-size:0.68rem; letter-spacing:0.08em; text-transform:uppercase; color:var(--amber-glow); border:1px solid var(--amber-dim); border-radius:3px; padding:5px 11px; }
     .pp-section-h { font-family:'Space Grotesk',sans-serif; font-size:1.15rem; color:var(--text); margin:48px 0 18px; padding-bottom:10px; border-bottom:1px solid var(--border); }
     .pp-desc { color:var(--text-dim); font-size:1rem; line-height:1.85; }
+    /* feature photo block (e.g. Showtech): photo prominent on the left, text on the right */
+    .pp-feature { display:grid; grid-template-columns:minmax(300px, 1.2fr) 1fr; gap:34px; align-items:start; margin-top:6px; }
+    .pp-feature-photo { width:100%; border-radius:8px; border:1px solid var(--border); display:block; }
+    .pp-feature-cap { font-size:0.82rem; letter-spacing:0.06em; color:var(--amber-glow); margin-top:12px; line-height:1.6; }
+    .pp-feature-text { color:var(--text-dim); font-size:1rem; line-height:1.85; }
+    .pp-feature-text p { margin-bottom:16px; }
+    .pp-feature-text strong { color:var(--text); font-weight:400; }
+    @media (max-width:768px){ .pp-feature { grid-template-columns:1fr; gap:20px; } }
     .pp-desc p { margin-bottom:16px; }
     .pp-desc strong { color:var(--text); font-weight:400; }
     /* videos full width, stacked one per row */
@@ -198,7 +209,7 @@
       </div>
       <div class="about-drawer">
         <div class="about-body">
-          <img class="about-portrait" src="assets/phillip-portrait.jpg" alt="Phillip Owor" />
+          <img class="about-portrait" src="assets/site/phillip-portrait.jpg" alt="Phillip Owor" />
           <div class="about-text">
             <p>Hey, I'm Phillip. I'm a <strong>Technical Artist</strong> with a B.A. in Expanded Realities. I work across the whole development pipeline and mainly with <strong>Unreal Engine and Unity</strong> — from C#, performance optimization, 3D modeling, shaders and real-time VFX to the interactive tools that tie them all together.</p>
             <p>I have a strong interest in the real-time render pipeline, shader &amp; VFX development, and exploring tools that enhance shader and VFX creation.</p>
@@ -224,6 +235,7 @@
   <div class="pp-bg"></div>
   <div class="pp-bg-screenshot" id="pp-bg-screenshot"></div>
   <div class="pp-scrim"></div>
+  <button class="pp-back" id="pp-back"><span class="arr">←</span> Peruse My Work</button>
   <div class="pp-close" id="pp-close">×</div>
   <div class="pp-content" id="pp-content"></div>
 </div>
@@ -243,6 +255,21 @@
        contributions: each item is { file, caption }
        caption shows under the image in the lightbox ("" = blank)
      ============================================================ */
+  /* ============================================================
+     MARQUEE (hero conveyor) — an amalgamation of ALL your work.
+     Drop files in assets/conveyor/ and list the filenames here.
+     Images (.jpg/.png/.webp) and videos (.mp4) both work.
+     These are decorative and non-clickable.
+     ============================================================ */
+  const MARQUEE = [
+    // PLACEHOLDERS — replace with your real files in assets/conveyor/
+    "arduino-hooked.jpg",
+    "battlewall-river-shader.mp4",
+    "charlotte-progress.webp",
+    "mountain-range-6.webp",
+    "space-garden-earth.jpg"
+  ];
+
   const PROJECTS = [
     {
       id: "battlewall",
@@ -286,6 +313,10 @@
       thumb: "p5-thumbnail.png",
       hover: "mephisto-animation.mp4",
       screenshot: "philip-owor-image-2025-08-05-210519724.webp",
+      feature: {
+        photo: "showtech-phillip.jpg",
+        caption: "Selected to present at Berlin Showtech 2025."
+      },
       desc: [
         "A mixed-reality application that brings Goethe's puppet theater to life. Players pick up puppets running around in mixed reality and place them into a 1:1 virtual replica of Johann von Goethe's puppet theater, where short scenes play out."
       ],
@@ -339,28 +370,25 @@
     aboutDrawer.classList.toggle('open');
   });
 
-  /* ---- MARQUEE (decorative, non-clickable, seamless) ----
-     We collect every project's hover video + thumb as marquee media,
-     then repeat the sequence enough times to overflow the strip width,
-     and animate by exactly one sequence-width for a seamless loop. */
+  /* ---- MARQUEE (decorative showcase of ALL work, non-clickable) ----
+     Reads from the MARQUEE list above (files in assets/conveyor/).
+     Add/remove items by editing that list — independent of projects. */
   const marquee = document.getElementById('marquee');
   function buildMarquee() {
-    const media = [];
-    PROJECTS.forEach(p => {
-      if (p.hover) media.push(`<video src="${ap(p,p.hover)}" muted loop autoplay playsinline></video>`);
-      media.push(`<img src="${ap(p,p.thumb)}" alt=""/>`);
+    if (!MARQUEE.length) return;
+    const media = MARQUEE.map(f => {
+      const path = `assets/conveyor/${f}`;
+      return /\.(mp4|webm|mov)$/i.test(f)
+        ? `<video src="${path}" muted loop autoplay playsinline></video>`
+        : `<img src="${path}" alt=""/>`;
     });
-    // one "sequence" = all media once; repeat it REPEATS times.
     const oneSeq = media.map(m => `<div class="marquee-item">${m}</div>`).join('');
-    // Need enough width to fill ~62vw twice over. Each item ~300px.
-    // Repeat the sequence enough times, then duplicate the whole thing for the -50% loop.
-    const needed = Math.max(2, Math.ceil((window.innerWidth * 0.62 * 2) / (media.length * 300)));
+    const needed = Math.max(2, Math.ceil((window.innerWidth * 0.66 * 2) / (media.length * 460)));
     let half = '';
     for (let i = 0; i < needed; i++) half += oneSeq;
-    marquee.innerHTML = half + half; // second copy makes -50% seamless
+    marquee.innerHTML = half + half; // duplicate for seamless -50% loop
   }
   buildMarquee();
-  window.addEventListener('resize', () => { /* keep loop stable; rebuild only if needed */ });
 
   /* ---- PROJECT PAGE ---- */
   const ppage = document.getElementById('project-page');
@@ -380,9 +408,21 @@
         `<div><p class="pp-video-label">${v.label}</p><div class="pp-video"><iframe src="https://www.youtube.com/embed/${v.youtube}" title="${p.title} ${v.label}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div></div>`
       ).join('')}</div>` : '';
 
-    const desc = p.desc.length ? `
+    const descParas = p.desc.map(t=>`<p>${t}</p>`).join('');
+    const desc = p.desc.length ? (
+      p.feature ? `
       <h3 class="pp-section-h">About the project</h3>
-      <div class="pp-desc">${p.desc.map(t=>`<p>${t}</p>`).join('')}</div>` : '';
+      <div class="pp-feature">
+        <div>
+          <img class="pp-feature-photo" src="${ap(p, p.feature.photo)}" alt="${p.title}" />
+          ${p.feature.caption ? `<p class="pp-feature-cap">${p.feature.caption}</p>` : ''}
+        </div>
+        <div class="pp-feature-text">${descParas}</div>
+      </div>`
+      : `
+      <h3 class="pp-section-h">About the project</h3>
+      <div class="pp-desc">${descParas}</div>`
+    ) : '';
 
     const tools = p.tools.length ? `
       <h3 class="pp-section-h">Tools Used</h3>
@@ -422,6 +462,7 @@
     if (push && location.hash) history.pushState(null, '', location.pathname);
   }
   document.getElementById('pp-close').addEventListener('click', () => closeProject());
+  document.getElementById('pp-back').addEventListener('click', () => closeProject());
 
   /* ---- HASH ROUTING ---- */
   function routeFromHash() {
