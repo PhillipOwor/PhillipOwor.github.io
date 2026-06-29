@@ -18,7 +18,7 @@
     html { scroll-behavior: smooth; }
     body { background: var(--bg); color: var(--text); font-family:'Inter',sans-serif; font-weight:300; line-height:1.7; overflow-x:hidden; }
 
-    #nebula-bg { position:fixed; inset:0; background-image:url('assets/site/render_1.jpg'); background-size:cover; background-position:center; opacity:0.05; pointer-events:none; z-index:0; }
+    #nebula-bg { position:fixed; inset:0; background-image:url('assets/site/render_1.jpg'); background-size:cover; background-position:center; opacity:0.025; pointer-events:none; z-index:0; }
     #stars { position:fixed; inset:0; z-index:1; }
 
     .page { position:relative; z-index:2; pointer-events:none; }
@@ -47,9 +47,9 @@
 
     /* MARQUEE — anchored to the right portion of the hero, scrolls, fades into the text on its left */
     .hero-marquee { position:absolute; top:50%; right:0; transform:translateY(-50%); height:440px; width:66%; overflow:hidden; z-index:1; -webkit-mask-image:linear-gradient(to right, transparent 0%, #000 20%, #000 100%); mask-image:linear-gradient(to right, transparent 0%, #000 20%, #000 100%); }
-    .marquee { display:flex; height:100%; width:max-content; animation:scroll-strip 40s linear infinite; }
-    .marquee-item { position:relative; height:100%; width:460px; flex:none; transform:skewX(-9deg); overflow:hidden; border-left:1px solid #00000055; }
-    .marquee-item > * { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%) skewX(9deg) scale(1.15); min-width:112%; min-height:112%; object-fit:cover; }
+    .marquee { display:flex; height:100%; width:max-content; animation:scroll-strip 60s linear infinite; }
+    .marquee-item { position:relative; height:100%; width:760px; flex:none; transform:skewX(-9deg); overflow:hidden; border-left:1px solid #00000055; }
+    .marquee-item > * { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%) skewX(9deg) scale(1.04); min-width:104%; min-height:104%; object-fit:cover; }
     @keyframes scroll-strip { from{transform:translateX(0);} to{transform:translateX(-50%);} }
 
     /* SECTIONS */
@@ -313,7 +313,7 @@
       year: "2025 — Mixed Reality",
       tags: ["Unity","Mixed Reality","Motion Capture"],
       thumb: "p5-thumbnail.png",
-      hover: "mephisto-animation.mp4",
+      hover: "0-mephisto-animation.mp4",
       screenshot: "philip-owor-image-2025-08-05-210519724.webp",
       feature: {
         photo: "showtech-phillip.jpg",
@@ -351,13 +351,15 @@
       year: "2025 — Real-Time Environment",
       tags: ["Unreal Engine 5","Lighting","Cinematics"],
       thumb: "mountain-range-1.webp",
-      hover: null,
+      hover: "mountain-range-preview.mp4",
       screenshot: "mountain-range-1.webp",
       desc: [
         "A real-time environment built in Unreal Engine 5 — a mountain range with a river running through the valley and a house perched on one of the banks.",
         "The piece was an exercise in lighting scenes and composing cinematic shots. I assembled the environment in-engine and rendered camera animations through it, learning Unreal's Sequencer for the first time in the process."
       ],
-      videos: [],
+      videos: [
+        { label: "Cinematic", youtube: "pHEPE3CQR0w" }
+      ],
       tools: [
         { name: "Unreal Engine 5", icon: "unreal-engine.png" }
       ],
@@ -378,7 +380,7 @@
       year: "2024 — Real-Time Environment (WIP)",
       tags: ["Unreal Engine 5","Environment Art","Concept"],
       thumb: "4-space-garden-entrance.jpg",
-      hover: null,
+      hover: "1-space-garden-fountain.mp4",
       screenshot: "4-space-garden-entrance.jpg",
       desc: [
         "In the furthest corner of the universe, a lone explorer lies stranded in a futuristic dystopian city suspended in another dimension of the cosmos — arriving through a Bifrost-like portal, then trapped when it malfunctioned and damaged the ship. The idea is simply to stroll the garden and take in the sights and sounds while the ship and portal are repaired.",
@@ -386,7 +388,9 @@
         "The garden itself — meant to give the scene a sense of tranquility — was inspired by the architecture of Doha's Hamad International Airport.",
         "<em>A work in progress.</em>"
       ],
-      videos: [],
+      videos: [
+        { label: "Walkthrough", youtube: "ulZW2bdWIpo" }
+      ],
       tools: [
         { name: "Unreal Engine 5", icon: "unreal-engine.png" }
       ],
@@ -448,7 +452,7 @@
         : `<img src="${path}" alt=""/>`;
     });
     const oneSeq = media.map(m => `<div class="marquee-item">${m}</div>`).join('');
-    const needed = Math.max(2, Math.ceil((window.innerWidth * 0.66 * 2) / (media.length * 460)));
+    const needed = Math.max(2, Math.ceil((window.innerWidth * 0.66 * 2) / (media.length * 760)));
     let half = '';
     for (let i = 0; i < needed; i++) half += oneSeq;
     marquee.innerHTML = half + half; // duplicate for seamless -50% loop
