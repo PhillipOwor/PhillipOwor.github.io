@@ -48,8 +48,8 @@
     /* MARQUEE — anchored to the right portion of the hero, scrolls, fades into the text on its left */
     .hero-marquee { position:absolute; top:50%; right:0; transform:translateY(-50%); height:440px; width:66%; overflow:hidden; z-index:1; -webkit-mask-image:linear-gradient(to right, transparent 0%, #000 20%, #000 100%); mask-image:linear-gradient(to right, transparent 0%, #000 20%, #000 100%); }
     .marquee { display:flex; height:100%; width:max-content; animation:scroll-strip 60s linear infinite; }
-    .marquee-item { position:relative; height:100%; width:760px; flex:none; transform:skewX(-9deg); overflow:hidden; border-left:1px solid #00000055; }
-    .marquee-item > * { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%) skewX(9deg) scale(1.04); min-width:104%; min-height:104%; object-fit:cover; }
+    .marquee-item { position:relative; height:100%; width:680px; flex:none; transform:skewX(-9deg); overflow:hidden; border-left:1px solid #00000055; }
+    .marquee-item > * { position:absolute; top:50%; left:50%; width:122%; height:100%; transform:translate(-50%,-50%) skewX(9deg); object-fit:cover; }
     @keyframes scroll-strip { from{transform:translateX(0);} to{transform:translateX(-50%);} }
 
     /* SECTIONS */
@@ -75,16 +75,23 @@
     .project-card:hover .card-thumb { opacity:0; }
     .project-card:hover .card-video { opacity:1; }
 
-    /* ABOUT — div-based drawer that slides open + animated 45deg icon */
-    .about { border:1px solid var(--border); border-radius:6px; background:#110e0af2; max-width:820px; overflow:hidden; }
-    .about-summary { cursor:pointer; padding:20px 24px; font-family:'Space Grotesk',sans-serif; font-size:1rem; font-weight:500; color:var(--text); display:flex; align-items:center; justify-content:space-between; transition:color 0.2s; user-select:none; }
-    .about-summary:hover { color:var(--amber-glow); }
-    .about-icon { color:var(--amber); font-size:1.5rem; font-weight:300; line-height:1; transition:transform 0.35s ease; display:inline-block; }
-    .about.open .about-icon { transform:rotate(45deg); }   /* + spins into x */
-    /* drawer: animate max-height for the slide-open */
-    .about-drawer { max-height:0; overflow:hidden; transition:max-height 0.45s ease; }
-    .about.open .about-drawer { max-height:600px; }
-    .about-body { padding:4px 24px 26px; display:grid; grid-template-columns:200px 1fr; gap:28px; align-items:start; }
+    /* ABOUT — always open (no drawer) */
+    .about-open { border:1px solid var(--border); border-radius:6px; background:#110e0af2; max-width:820px; overflow:hidden; }
+    .about-body { padding:24px; display:grid; grid-template-columns:200px 1fr; gap:28px; align-items:start; }
+
+    /* BROWSE MORE — reuses the drawer slide animation for extra projects */
+    .browse-more-wrap { margin-top:30px; display:flex; flex-direction:column; align-items:center; }
+    .browse-more-btn { cursor:pointer; display:flex; align-items:center; gap:10px; background:#1a1610cc; border:1px solid var(--amber-dim); border-radius:6px; padding:13px 26px; font-family:'Space Grotesk',sans-serif; font-size:0.85rem; letter-spacing:0.06em; color:var(--amber-glow); transition:border-color 0.2s,color 0.2s; user-select:none; }
+    .browse-more-btn:hover { color:#ffc860; border-color:var(--amber); }
+    .browse-more-btn .bm-arrow { font-size:1rem; line-height:1; transition:transform 0.4s ease; display:inline-block; }
+    .browse-more-wrap.open .bm-arrow { transform:rotate(180deg); }
+    /* the hidden projects slide open via max-height */
+    .projects-extra { width:100%; display:grid; grid-template-columns:repeat(2,1fr); gap:26px; }
+    .projects-extra.hidden { display:none; }
+    .browse-more-wrap.open .projects-extra { margin-bottom:30px; }
+    /* each revealed card fades + rises in */
+    .projects-extra .project-card { opacity:0; transform:translateY(14px); transition:opacity 0.45s ease, transform 0.45s ease; }
+    .projects-extra.shown .project-card { opacity:1; transform:translateY(0); }
     .about-portrait { width:100%; border-radius:8px; border:1px solid var(--border); display:block; }
     .about-text { color:var(--text-dim); font-size:0.97rem; line-height:1.9; }
     .about-text p { margin-bottom:14px; }
@@ -157,7 +164,7 @@
       .hero-inner { padding:0 22px; } section { padding:70px 22px; }
       .hero-marquee { display:none; }
       .projects-grid { grid-template-columns:1fr; }
-      .about-row { grid-template-columns:1fr; } .about-portrait { max-width:260px; }
+      .about-body { grid-template-columns:1fr; } .about-portrait { max-width:260px; }
       footer { padding:22px; flex-direction:column; gap:8px; text-align:center; }
       .lb-arrow { width:44px; height:44px; font-size:1.3rem; } .lb-prev { left:10px; } .lb-next { right:10px; }
       .pp-title { font-size:1.9rem; }
@@ -198,23 +205,21 @@
   <section id="work">
     <h2 class="section-label">My Projects</h2>
     <div class="projects-grid" id="projects-grid"></div>
+    <div class="browse-more-wrap" id="browse-more-wrap">
+      <div class="projects-extra hidden" id="projects-extra"></div>
+      <div class="browse-more-btn" id="browse-more-btn">Browse More <span class="bm-arrow">↓</span></div>
+    </div>
   </section>
 
   <section id="about">
     <h2 class="section-label">Who's behind this?</h2>
-    <div class="about" id="about-drawer">
-      <div class="about-summary" id="about-toggle">
-        <span>About me</span>
-        <span class="about-icon">+</span>
-      </div>
-      <div class="about-drawer">
-        <div class="about-body">
-          <img class="about-portrait" src="assets/site/phillip-portrait.jpg" alt="Phillip Owor" />
-          <div class="about-text">
-            <p>Hey, I'm Phillip. I'm a <strong>Technical Artist</strong> with a B.A. in Expanded Realities. I work across the whole development pipeline and mainly with <strong>Unreal Engine and Unity</strong> — from C#, performance optimization, 3D modeling, shaders and real-time VFX to the interactive tools that tie them all together.</p>
-            <p>I have a strong interest in the real-time render pipeline, shader &amp; VFX development, and exploring tools that enhance shader and VFX creation.</p>
-            <p>I am very pleased to make your acquaintance.</p>
-          </div>
+    <div class="about-open">
+      <div class="about-body">
+        <img class="about-portrait" src="assets/site/phillip-portrait.jpg" alt="Phillip Owor" />
+        <div class="about-text">
+          <p>Hey, I'm Phillip. I'm a <strong>Technical Artist</strong> with a B.A. in Expanded Realities. I work across the whole development pipeline and mainly with <strong>Unreal Engine and Unity</strong> — from C#, performance optimization, 3D modeling, shaders and real-time VFX to the interactive tools that tie them all together.</p>
+          <p>I have a strong interest in the real-time render pipeline, shader &amp; VFX development, and exploring tools that enhance shader and VFX creation.</p>
+          <p>I am very pleased to make your acquaintance.</p>
         </div>
       </div>
     </div>
@@ -374,6 +379,50 @@
       ]
     },
     {
+      id: "ai-shader-graph",
+      folder: "proj-ai-shader-graph",
+      title: "AI Shader Graph",
+      year: "2026 — Bachelor Thesis · Generative Tooling",
+      tags: ["Unity","Generative AI","Shader Graph","Tooling"],
+      thumb: "ai-shader-graph-thumb.jpg",
+      hover: null,
+      screenshot: "ai-shader-graph-thumb.jpg",
+      desc: [
+        "My bachelor thesis: a Unity tool that generates Shader Graphs from plain-language prompts. Describe the shader you want in natural language, and the system builds the corresponding node graph inside Unity — lowering the barrier between an artist's intent and a working real-time shader.",
+        "Under the hood it pairs a large language model with a retrieval-augmented knowledge base of Unity's shader nodes, and a factory-pattern architecture that assembles the graph from the model's output. Getting there meant reverse-engineering Unity's undocumented Shader Graph file format so the tool could write valid graphs the editor would accept.",
+        "In testing, the generated graphs reached 98% technical validity — and a user study surfaced an \"expertise inverse\": beginners benefited most, while experts were quicker to spot where the tool fell short.",
+        "The project sits exactly where I like to work — between art and engineering, building tools that make shader and VFX creation more approachable."
+      ],
+      videos: [
+        { label: "Demo", youtube: "jdrFye879Qs" }
+      ],
+      tools: [
+        { name: "Unity", icon: "unity.png" }
+      ],
+      contributions: []
+    },
+    {
+      id: "primazon",
+      folder: "proj-primazon",
+      title: "Primazon",
+      year: "2025 — Game + Custom Hardware",
+      tags: ["Unity","Arduino","Hardware","Gameplay"],
+      thumb: "primazon-thumb.jpg",
+      hover: null,
+      screenshot: "primazon-thumb.jpg",
+      desc: [
+        "A solo project where I built both the game and the controller it runs on. I designed and wired a custom Arduino Bluetooth controller that connects to Unity, then made a game around it: drive a delivery car to pick up and drop off packages as fast as possible before the timer runs out.",
+        "It pulls together gameplay programming, the Unity build, and physical electronics into one loop — bridging software and hardware end to end."
+      ],
+      videos: [
+        { label: "Gameplay", youtube: "cLRagV4CvvU" }
+      ],
+      tools: [
+        { name: "Unity", icon: "unity.png" }
+      ],
+      contributions: []
+    },
+    {
       id: "space-garden",
       folder: "proj-space-garden",
       title: "Dystopian Space Garden",
@@ -411,9 +460,12 @@
   const isVideo = f => /\.(mp4|webm|mov)$/i.test(f);
   const ap = (proj, file) => `assets/${proj.folder}/${file}`;
 
-  /* ---- CARDS ---- */
+  /* ---- CARDS (first 4 visible, rest behind Browse More) ---- */
   const grid = document.getElementById('projects-grid');
-  PROJECTS.forEach(proj => {
+  const extraGrid = document.getElementById('projects-extra');
+  const VISIBLE_COUNT = 4;
+
+  function makeCard(proj) {
     const card = document.createElement('div');
     card.className = 'project-card';
     const hoverVid = proj.hover ? `<video class="card-video" src="${ap(proj,proj.hover)}" muted loop playsinline preload="none"></video>` : '';
@@ -430,14 +482,40 @@
     const v = card.querySelector('.card-video');
     if (v) { card.addEventListener('mouseenter',()=>v.play()); card.addEventListener('mouseleave',()=>{v.pause();v.currentTime=0;}); }
     card.addEventListener('click', () => openProject(proj.id));
-    grid.appendChild(card);
+    return card;
+  }
+
+  PROJECTS.forEach((proj, i) => {
+    const card = makeCard(proj);
+    if (i < VISIBLE_COUNT) grid.appendChild(card);
+    else extraGrid.appendChild(card);
   });
 
-  /* ---- ABOUT DRAWER toggle (animated slide + icon spin) ---- */
-  const aboutDrawer = document.getElementById('about-drawer');
-  document.getElementById('about-toggle').addEventListener('click', () => {
-    aboutDrawer.classList.toggle('open');
-  });
+  /* ---- BROWSE MORE toggle (reuses the slide animation) ---- */
+  const browseMoreWrap = document.getElementById('browse-more-wrap');
+  const browseMoreBtn = document.getElementById('browse-more-btn');
+  // hide the button entirely if there are no extra projects
+  if (PROJECTS.length <= VISIBLE_COUNT) {
+    browseMoreWrap.style.display = 'none';
+  } else {
+    browseMoreBtn.addEventListener('click', () => {
+      const isOpen = browseMoreWrap.classList.contains('open');
+      if (isOpen) {
+        // close: fade cards out, then hide the grid after the transition
+        extraGrid.classList.remove('shown');
+        browseMoreWrap.classList.remove('open');
+        browseMoreBtn.firstChild.textContent = 'Browse More ';
+        const onEnd = () => { extraGrid.classList.add('hidden'); extraGrid.removeEventListener('transitionend', onEnd); };
+        extraGrid.addEventListener('transitionend', onEnd);
+      } else {
+        // open: show the grid, then next frame fade cards in
+        extraGrid.classList.remove('hidden');
+        browseMoreWrap.classList.add('open');
+        browseMoreBtn.firstChild.textContent = 'Show Less ';
+        requestAnimationFrame(() => requestAnimationFrame(() => extraGrid.classList.add('shown')));
+      }
+    });
+  }
 
   /* ---- MARQUEE (decorative showcase of ALL work, non-clickable) ----
      Reads from the MARQUEE list above (files in assets/conveyor/).
