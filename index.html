@@ -26,9 +26,9 @@
 
     /* NAV */
     nav { position:fixed; top:0; left:0; right:0; padding:18px 48px; display:flex; justify-content:space-between; align-items:center; z-index:100; background:linear-gradient(to bottom,#0a0806f2 0%,#0a0806cc 70%,transparent 100%); }
-    .logo { display:flex; align-items:center; gap:12px; text-decoration:none; }
-    .logo svg { display:block; }
-    .logo-text { font-family:'Space Grotesk',sans-serif; font-size:0.85rem; font-weight:500; letter-spacing:0.14em; color:var(--text); text-transform:uppercase; }
+    .logo { display:flex; align-items:center; text-decoration:none; }
+    .logo-img { display:block; height:38px; width:auto; transition:transform 0.3s ease; }
+    .logo:hover .logo-img { transform:scale(1.06); }
     .nav-links { display:flex; gap:32px; }
     .nav-links a { font-size:0.8rem; letter-spacing:0.08em; text-transform:uppercase; color:var(--text-dim); text-decoration:none; transition:color 0.2s; }
     .nav-links a:hover { color:var(--amber-glow); }
@@ -179,15 +179,7 @@
 <div class="page">
   <nav>
     <a class="logo" href="#">
-      <svg width="58" height="30" viewBox="0 0 58 30" xmlns="http://www.w3.org/2000/svg" aria-label="PO logo">
-        <defs>
-          <radialGradient id="orb" cx="38%" cy="35%" r="75%"><stop offset="0%" stop-color="#ffd87a"/><stop offset="45%" stop-color="#e8a83a"/><stop offset="100%" stop-color="#5a3c0e"/></radialGradient>
-          <filter id="orbglow" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="2.2" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
-        </defs>
-        <path d="M6 27 V3 h10.5 a7.5 7.5 0 0 1 0 15 H6" fill="none" stroke="#e0d0b8" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
-        <circle cx="42" cy="15" r="10" fill="url(#orb)" filter="url(#orbglow)"/>
-      </svg>
-      <span class="logo-text">Phillip Owor</span>
+      <img class="logo-img" src="assets/icons/phillip-owor-logo-1.png" alt="Phillip Owor" />
     </a>
     <div class="nav-links"><a href="#work">Work</a><a href="#about">About</a><a href="#contact">Contact</a></div>
   </nav>
