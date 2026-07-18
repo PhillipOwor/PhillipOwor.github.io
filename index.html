@@ -69,12 +69,18 @@
     background:radial-gradient(circle at var(--mx,50%) var(--my,50%), #fff6e2c0, transparent 40%);
     opacity:0; transition:opacity .3s;}
   .hub-tilt.tilting .hub-sheen{opacity:.85;}
+  .hub-bks{position:absolute; inset:-9px; pointer-events:none;}
   .hub-bk{position:absolute; width:20px; height:20px; opacity:0; transition:opacity .35s, transform .5s cubic-bezier(.22,.61,.36,1); pointer-events:none;}
   .hub-bk.a{top:-6px; left:-6px; border-top:2px solid var(--gold-hot); border-left:2px solid var(--gold-hot); transform:translate(6px,6px);}
   .hub-bk.b{top:-6px; right:-6px; border-top:2px solid var(--gold-hot); border-right:2px solid var(--gold-hot); transform:translate(-6px,6px);}
   .hub-bk.c{bottom:-6px; left:-6px; border-bottom:2px solid var(--gold-hot); border-left:2px solid var(--gold-hot); transform:translate(6px,-6px);}
   .hub-bk.d{bottom:-6px; right:-6px; border-bottom:2px solid var(--gold-hot); border-right:2px solid var(--gold-hot); transform:translate(-6px,-6px);}
   .hub-btn:hover .hub-bk{opacity:1; transform:translate(0,0);}
+  .hub-btn:hover .hub-bks{animation:hubPulse 2.4s ease-in-out .5s infinite;}
+  @keyframes hubPulse{
+    0%,100%{inset:-9px;}
+    50%{inset:-3px;}
+  }
   @keyframes spin{to{transform:rotate(360deg);}}
 
   /* spokes */
@@ -129,8 +135,12 @@
   .tile-bk .b{top:0; right:0; border-top:2px solid var(--gold-hot); border-right:2px solid var(--gold-hot);}
   .tile-bk .c{bottom:0; left:0; border-bottom:2px solid var(--gold-hot); border-left:2px solid var(--gold-hot);}
   .tile-bk .d{bottom:0; right:0; border-bottom:2px solid var(--gold-hot); border-right:2px solid var(--gold-hot);}
-  .spoke:hover .tile-bk{opacity:1; transform:scale(1);}
-  .spoke.is-focus .tile-bk{opacity:1; transform:scale(1.3);}
+  .spoke:hover .tile-bk{opacity:1; transform:scale(1); animation:bkPulse 2.4s ease-in-out .5s infinite;}
+  .spoke.is-focus .tile-bk{opacity:1; transform:scale(1.3); animation:none;}
+  @keyframes bkPulse{
+    0%,100%{inset:-9px;}
+    50%{inset:-6px;}
+  }
 
   /* hub label + open prompt */
   .hub-meta{position:absolute; top:calc(50% + 128px); left:50%; transform:translateX(-50%);
@@ -435,7 +445,7 @@
           <img class="hub-logo" src="assets/icons/phillip-owor-logo-1.png" alt="Phillip Owor" />
           <span class="hub-sheen"></span>
         </span>
-        <span class="hub-bk a"></span><span class="hub-bk b"></span><span class="hub-bk c"></span><span class="hub-bk d"></span>
+        <span class="hub-bks"><span class="hub-bk a"></span><span class="hub-bk b"></span><span class="hub-bk c"></span><span class="hub-bk d"></span></span>
       </button>
     </div>
 
