@@ -269,6 +269,13 @@
   .det-vidrow .det-video, .det-vidrow .det-feature{grid-area:auto;}
   .det-vidrow .det-feature{height:auto; max-width:none;}
   .det-vidrow .det-feature-img{width:100%; height:auto;}
+  .det-vidrow .det-desc{grid-area:auto; max-width:none;}
+  .det-accrow{display:flex; flex-wrap:wrap; align-items:flex-start; gap:22px; margin-bottom:34px;}
+  .det-acc{margin:0;}
+  .det-acc img{height:clamp(320px, 52vh, 600px); width:auto; max-width:100%; display:block;
+    box-shadow:inset 0 0 0 1.5px var(--gold-dim), 0 18px 44px #000a;
+    clip-path:polygon(13px 0,100% 0,100% calc(100% - 13px),calc(100% - 13px) 100%,0 100%,0 13px);}
+  .det-acc figcaption{width:0; min-width:100%; margin-top:10px; font-family:var(--mono); font-size:.62rem; letter-spacing:.04em; line-height:1.6; color:var(--gold);}
 
 
   .det-close{position:fixed; top:26px; right:30px; z-index:40; display:flex; align-items:center; gap:8px;
@@ -541,10 +548,10 @@ const PROJECTS = [
       thumb: "p5-thumbnail.png",
       hover: "0-mephisto-animation.mp4",
       screenshot: "philip-owor-image-2025-08-05-210519724.webp",
-      feature: {
-        photo: "showtech-phillip.jpg",
-        caption: "Selected to present at Berlin Showtech 2025."
-      },
+      accolades: [
+        { file: "showtech-phillip.jpg", caption: "Presented at Berlin Showtech 2025." },
+        { file: "adc-phillip.jpeg", caption: "Presented at Art Director's Club at the WDC-Hub in Frankfurt am Main, World Design Capital 2026." }
+      ],
       desc: [
         "This is an interactive museum experience built for Meta Quest 3 and also my 5th Semester Project.",
        "Users place puppets into a virtual theater in Mixed Reality, triggering AI-generated plays inspired by the life and works of Johann Wolfgang von Goethe. Characters like Goethe, Charlotte, and Mephisto come to life through motion-captured animations and dynamic dialogue.",
@@ -603,7 +610,7 @@ const PROJECTS = [
         { file: "battlewall-geometry-nodes-tiles.webp", caption: "Geometry Nodes for the stone slabs created by me" },
         { file: "battlewall-castle-tiles.webp", caption: "Geometry Node stone slabs in-engine" },
         { file: "battlewall-tree-shader.webp", caption: "Low Poly Pine Trees with Gradient Shader created by me" },
-        { file: "battlewall-map-loop.mp4", caption: "Map Prefab Rendered in Unity"},
+        { file: "battlewall-map-loop.mp4", caption: "Map Prefab Rendered in Unity, I proposed the upper and lower bridges to prevent units bottlenecking at the center bridge"},
         { file: "battlewall-all-assets.webp", caption: "All Assets gathered in-engine by me" },
         { file: "battlewall-foliage-assets.webp", caption: "Foliage and Environment Assets in-engine" },
         { file: "battlewall-misc-assets.webp", caption: "Low Poly Miscellaneous Assets created by me" },
@@ -615,7 +622,7 @@ const PROJECTS = [
       folder: "proj-mountain-range",
       title: "Mountain Range",
       year: "2025 — Real-Time Environment",
-      tags: ["Unreal Engine 5","Environment Art","Lighting","Cinematics"],
+      tags: ["Unreal Engine 5","Environment Art","Lighting","Cinematics","Niagara"],
       thumb: "mountain-range-thumbnail.png",
       hover: "mountain-range-preview.mp4",
       screenshot: "mountain-range-1.webp",
@@ -688,7 +695,7 @@ const PROJECTS = [
       folder: "proj-space-garden",
       title: "Dystopian Space Garden",
       year: "2024 — Real-Time Environment (WIP)",
-      tags: ["Unreal Engine 5","Environment Art","VFX"],
+      tags: ["Unreal Engine 5","Environment Art","VFX", "Blueprints","Niagara"],
       thumb: "space-garden-thumbnail.png",
       hover: "1-space-garden-fountain.mp4",
       screenshot: "4-space-garden-entrance.jpg",
@@ -881,6 +888,12 @@ function galleryReal(p, cols, label){
 function skillTags(p){
   return `<div class="det-line det-skilltags">${p.tags.map(t=>`<span class="det-tag">${t}</span>`).join('')}</div>`;
 }
+
+function accoladesBlock(p){
+  if(!p.accolades) return '';
+  const items = p.accolades.map(a=>`<figure class="det-acc"><img src="${ap(p, a.file)}" alt="${p.title} — presentation" loading="lazy" />${a.caption ? `<figcaption>${a.caption}</figcaption>` : ''}</figure>`).join('');
+  return `<div class="det-line det-gallery-label">Accolades</div><div class="det-accrow">${items}</div>`;
+}
 function tagsReal(p){
   return `<div class="det-tags">${p.tools.map(t=>`<span class="det-tag"><img src="assets/icons/${t.icon}" alt="" />${t.name}</span>`).join('')}</div>`;
 }
@@ -898,14 +911,14 @@ function fillDetail(){
   const lay = p.contributions.length ? 'gal' : 'solo';
   currentContrib = p.contributions.map(c => ({ path: ap(p, c.file), caption: c.caption || '', file: c.file }));
   const vids = p.videos.map((v,vi)=> videoBlock(p, v, vi ? 'v-second' : 'v-main')).join('');
-  const featureHtml = p.feature ? `<div class="det-feature"><img class="det-feature-img" src="${ap(p, p.feature.photo)}" alt="${p.title}" />${p.feature.caption ? `<div class="det-feature-cap">${p.feature.caption}</div>` : ''}</div>` : '';
   let html = '';
 
   if(lay === 'gal'){
     html = skillTags(p)
             + galleryReal(p, 'wide', 'What I did')
-            + `<div class="det-vidrow">${vids}${featureHtml}</div>`
-            + descReal(p, true);
+            + (p.accolades
+                    ? `<div class="det-vidrow">${vids}${descReal(p, true)}</div>` + accoladesBlock(p)
+                    : `<div class="det-vidrow">${vids}</div>` + descReal(p, true));
   } else {
     html = vids + descReal(p, true);
   }
@@ -1093,7 +1106,7 @@ if(_startI >= 0) setTimeout(openDetail, 450);
     currentContrib = p.contributions.map(c => ({ path: ap(p, c.file), caption: c.caption || '', file: c.file }));
     let h = `<div class="md-title">${p.title}</div><div class="md-sub">${yearOf(p)} — ${kindOf(p)}</div>`;
     h += p.videos.map(v => ytPoster(p, v)).join('');
-    if(p.feature) h += `<div class="md-feature"><img src="${ap(p, p.feature.photo)}" alt="${p.title}" loading="lazy" />${p.feature.caption ? `<div class="md-feature-cap">${p.feature.caption}</div>` : ''}</div>`;
+    if(p.accolades) h += `<div class="md-section-label">Accolades</div>` + p.accolades.map(a=>`<div class="md-feature"><img src="${ap(p, a.file)}" alt="${p.title}" loading="lazy" />${a.caption ? `<div class="md-feature-cap">${a.caption}</div>` : ''}</div>`).join('');
     h += `<div class="md-desc">${p.desc.map(x => `<p>${x}</p>`).join('')}</div>`;
     h += `<div class="md-section-label">Software</div><div class="md-tags">${p.tools.map(t => `<span class="md-tag"><img src="assets/icons/${t.icon}" alt="" />${t.name}</span>`).join('')}</div>`;
     if(p.contributions.length){
