@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Phillip Owor — Technical Artist · Work Overview</title>
+<meta name="description" content="Technical Artist in Darmstadt, Germany. Shaders, real-time VFX, procedural tools and pipelines in Unity and Unreal Engine 5 — including an AI-driven Shader Graph generation tool, mixed-reality games, and real-time environments." />
+<link rel="canonical" href="https://phillipowor.github.io/work.html" />
+<meta property="og:title" content="Phillip Owor — Technical Artist" />
+<meta property="og:description" content="Shaders, tools & real-time VFX in Unity and Unreal Engine 5. Six projects, contributions spelled out." />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://phillipowor.github.io/work.html" />
+<meta property="og:image" content="https://phillipowor.github.io/assets/p6-battlewall/battlewall-thumbnail.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&family=Cormorant+Garamond:wght@500;600&display=swap" rel="stylesheet" />
+<style>
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  :root{
+    --ink:#07080d; --panel:#111119;
+    --gold:#d8b04a; --gold-hot:#f2d489; --gold-dim:#7d6026;
+    --text:#e9ddc4; --text-dim:#9a8f78; --text-faint:#6a6252;
+    --display:'Space Grotesk',sans-serif; --mono:'Space Mono',monospace; --serif:'Cormorant Garamond',serif;
+    --cut:9px;
+  }
+  html{scroll-behavior:smooth;}
+  body{background:var(--ink); color:var(--text); font-family:var(--display);
+    background-image:radial-gradient(120% 90% at 50% 0%, #12131c 0%, #0a0a0f 45%, #05050a 100%);
+    background-attachment:fixed;}
+  a{color:var(--gold); text-decoration:none;}
+  a:hover{color:var(--gold-hot);}
+  img,video{max-width:100%; display:block;}
+  .clip{clip-path:polygon(var(--cut) 0,100% 0,100% calc(100% - var(--cut)),calc(100% - var(--cut)) 100%,0 100%,0 var(--cut));}
+
+  .wrap{max-width:1060px; margin:0 auto; padding:0 24px;}
+
+  /* header */
+  .top{position:sticky; top:0; z-index:10; backdrop-filter:blur(8px);
+    background:linear-gradient(to bottom,#07080df2 60%,#07080d00);}
+  .top-in{display:flex; align-items:center; justify-content:space-between; padding:14px 0;}
+  .home{display:flex; align-items:center; gap:11px; font-family:var(--mono); font-size:.62rem;
+    letter-spacing:.24em; text-transform:uppercase; color:var(--text-dim);}
+  .home img{width:34px; height:34px; object-fit:contain;}
+  .home:hover{color:var(--gold-hot);}
+  .top-nav{display:flex; gap:18px; font-family:var(--mono); font-size:.6rem; letter-spacing:.16em; text-transform:uppercase;}
+
+  /* hero */
+  .hero{padding:72px 0 54px; border-bottom:1px solid #2a2213;}
+  .hero h1{font-family:var(--serif); font-size:clamp(2.6rem,6vw,4rem); font-weight:600; color:#f6ecd3; line-height:1;}
+  .hero .role{margin-top:12px; font-size:1.08rem; color:var(--text-dim); max-width:640px; line-height:1.7;}
+  .hero .meta{margin-top:18px; font-family:var(--mono); font-size:.66rem; letter-spacing:.14em;
+    text-transform:uppercase; color:var(--text-faint); line-height:2;}
+  .hero .links{margin-top:20px; display:flex; flex-wrap:wrap; gap:16px;}
+  .hero .links a{font-family:var(--mono); font-size:.68rem; letter-spacing:.14em; text-transform:uppercase;
+    padding:8px 0; border-bottom:1px solid var(--gold-dim);}
+  .hero .links a:hover{border-color:var(--gold-hot);}
+
+  /* section labels */
+  section{padding:58px 0 8px;}
+  .eyebrow{display:flex; align-items:center; gap:10px; font-family:var(--mono); font-size:.64rem;
+    letter-spacing:.2em; text-transform:uppercase; color:var(--gold); margin-bottom:8px;}
+  .eyebrow::before{content:'\25C6'; font-size:.7em;}
+  h2{font-family:var(--serif); font-size:2.1rem; font-weight:600; color:#f6ecd3; margin-bottom:18px;}
+
+  /* project */
+  .proj{padding:44px 0 10px; border-top:1px solid #1c1810;}
+  .proj:first-of-type{border-top:0; padding-top:8px;}
+  .proj header{display:flex; flex-wrap:wrap; align-items:baseline; gap:10px 18px;}
+  .proj h3{font-family:var(--serif); font-size:2rem; font-weight:600; color:#f6ecd3; line-height:1.1;}
+  .kind{font-family:var(--mono); font-size:.6rem; letter-spacing:.18em; text-transform:uppercase; color:var(--gold);}
+  .tags{display:flex; flex-wrap:wrap; gap:8px; margin:12px 0 4px;}
+  .tag{font-family:var(--mono); font-size:.58rem; letter-spacing:.08em; text-transform:uppercase;
+    color:var(--gold); box-shadow:inset 0 0 0 1px var(--gold-dim); padding:5px 10px;
+    clip-path:polygon(5px 0,100% 0,100% calc(100% - 5px),calc(100% - 5px) 100%,0 100%,0 5px);}
+  .proj .body{margin-top:12px; max-width:760px;}
+  .proj .body p{color:var(--text-dim); font-weight:300; line-height:1.85; margin-bottom:12px;}
+  .proj .body strong{color:var(--text); font-weight:400;}
+  .proj .body em{color:var(--gold); font-style:normal;}
+  .vids{display:flex; flex-wrap:wrap; gap:14px; margin:6px 0 18px;}
+  .vids a{display:flex; align-items:center; gap:9px; font-family:var(--mono); font-size:.62rem;
+    letter-spacing:.14em; text-transform:uppercase; color:var(--gold);
+    box-shadow:inset 0 0 0 1px #4a3c1e; padding:9px 14px;
+    clip-path:polygon(6px 0,100% 0,100% calc(100% - 6px),calc(100% - 6px) 100%,0 100%,0 6px);}
+  .vids a:hover{box-shadow:inset 0 0 0 1px var(--gold);}
+  .vids a::before{content:'\25B8'; font-size:1.05em;}
+  .did{font-family:var(--mono); font-size:.62rem; letter-spacing:.18em; text-transform:uppercase;
+    color:var(--gold); margin:10px 0 14px;}
+  .grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(250px,1fr)); gap:16px; margin-bottom:26px;}
+  .grid figure{background:var(--panel); box-shadow:inset 0 0 0 1px #2a2213;}
+  .grid .media{aspect-ratio:16/10; overflow:hidden; background:#0c0c12;}
+  .grid img, .grid video{width:100%; height:100%; object-fit:cover;}
+  .grid figcaption{padding:10px 12px 12px; font-size:.8rem; color:var(--text-faint); line-height:1.55;}
+
+  /* skills / experience */
+  .cols{display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:26px; margin-bottom:20px;}
+  .card{background:var(--panel); box-shadow:inset 0 0 0 1px #2a2213; padding:22px 24px;}
+  .card h4{font-family:var(--mono); font-size:.62rem; letter-spacing:.2em; text-transform:uppercase;
+    color:var(--gold); margin-bottom:14px;}
+  .card ul{list-style:none;}
+  .card li{color:var(--text-dim); font-weight:300; line-height:1.6; padding:5px 0; border-bottom:1px solid #1c1810;}
+  .card li:last-child{border-bottom:0;}
+  .card li b{color:var(--text); font-weight:500;}
+
+  /* footer / contact */
+  .contact{margin:64px 0 0; padding:46px 0 54px; border-top:1px solid #2a2213;}
+  .contact p{color:var(--text-dim); max-width:560px; line-height:1.8; margin-bottom:18px;}
+  .contact .links{display:flex; flex-wrap:wrap; gap:16px;}
+  .contact .links a{font-family:var(--mono); font-size:.7rem; letter-spacing:.14em; text-transform:uppercase;
+    padding:10px 18px; color:#0d0b06; background:var(--gold);
+    clip-path:polygon(7px 0,100% 0,100% calc(100% - 7px),calc(100% - 7px) 100%,0 100%,0 7px);}
+  .contact .links a:hover{background:var(--gold-hot); color:#0d0b06;}
+  .contact .links a.ghost{background:none; color:var(--gold); box-shadow:inset 0 0 0 1px var(--gold-dim);}
+  .contact .links a.ghost:hover{color:var(--gold-hot); box-shadow:inset 0 0 0 1px var(--gold);}
+  .fineprint{padding:26px 0 40px; font-family:var(--mono); font-size:.58rem; letter-spacing:.2em;
+    text-transform:uppercase; color:var(--text-faint);}
+
+  :focus-visible{outline:2px solid var(--gold-hot); outline-offset:3px;}
+  @media (max-width:640px){
+    .hero{padding:52px 0 40px;}
+    .grid{grid-template-columns:1fr 1fr;}
+    .grid figcaption{font-size:.72rem;}
+  }
+</style>
+</head>
+<body>
+
+<div class="top"><div class="wrap top-in">
+  <a class="home" href="index.html"><img src="assets/icons/phillip-owor-logo-1.png" alt="" />P.OWOR</a>
+  <nav class="top-nav">
+    <a href="#projects">Projects</a>
+    <a href="#background">Background</a>
+    <a href="#contact">Contact</a>
+  </nav>
+</div></div>
+
+<header class="hero"><div class="wrap">
+  <h1>Phillip Owor</h1>
+  <p class="role">Technical Artist — I build shaders, real-time VFX, procedural content and the tools that tie them together, in Unity and Unreal Engine 5. B.A. in Expanded Realities, Hochschule Darmstadt.</p>
+  <p class="meta">Unity · Unreal Engine 5 · C# · Blender · Substance Painter<br>Dieburg / Darmstadt, Germany · Available now · English (native) · German (Goethe C1)</p>
+  <div class="links">
+    <a href="mailto:phillipowor.dev@gmail.com">Email</a>
+    <a href="https://www.linkedin.com/in/phillip-owor-9891122b9/" target="_blank" rel="noopener">LinkedIn</a>
+    <a href="index.html">Interactive portfolio ↗</a>
+  </div>
+</div></header>
+
+<main class="wrap">
+
+<section id="projects">
+  <p class="eyebrow">Selected work</p>
+  <h2>Projects</h2>
+
+  <!-- BattleWall -->
+  <article class="proj" id="battlewall">
+    <header><h3>BattleWall</h3><span class="kind">2025 · Mixed Reality Game · Team of 4 · 6 weeks</span></header>
+    <div class="tags"><span class="tag">Unity</span><span class="tag">Shader Graph</span><span class="tag">VFX Graph</span><span class="tag">Geometry Nodes</span><span class="tag">Mixed Reality</span></div>
+    <div class="body">
+      <p>A mixed-reality arcade game where two players throw virtual soldiers onto a shared battlefield, boosted by power-ups, while an audience watches the battle unfold on a massive shared screen.</p>
+      <p><strong>My tech art on this project:</strong> the stylized water shader (Shader Graph), the power-up aura VFX for Attack, Defense and Speed (VFX Graph + Shader Graph), the meteor world-event VFX, procedural stone slabs built with Geometry Nodes, a gradient tree shader — plus modeling the entire map and its assets, and editing the trailer.</p>
+    </div>
+    <div class="vids">
+      <a href="https://www.youtube.com/watch?v=jbxicspHamQ" target="_blank" rel="noopener">Trailer</a>
+      <a href="https://www.youtube.com/watch?v=qZLnhWgWdC4" target="_blank" rel="noopener">Gameplay</a>
+    </div>
+    <p class="did">What I did</p>
+    <div class="grid">
+      <figure class="clip"><div class="media"><video src="assets/p6-battlewall/battlewall-river-shader.mp4" muted loop playsinline controls preload="metadata"></video></div><figcaption>Stylized water shader — Shader Graph</figcaption></figure>
+      <figure class="clip"><div class="media"><video src="assets/p6-battlewall/battlewall-unit-aura-vfx.mp4" muted loop playsinline controls preload="metadata"></video></div><figcaption>Power-up auras for Attack, Defense, Speed — VFX Graph + Shader Graph</figcaption></figure>
+      <figure class="clip"><div class="media"><img src="assets/p6-battlewall/battlewall-geometry-nodes-tiles.webp" alt="Geometry Nodes setup for procedural stone slabs" loading="lazy" /></div><figcaption>Procedural stone slabs — Geometry Nodes</figcaption></figure>
+      <figure class="clip"><div class="media"><video src="assets/p6-battlewall/p6-world-events-1.mp4" muted loop playsinline controls preload="metadata"></video></div><figcaption>World events — I built the meteors in VFX Graph</figcaption></figure>
+      <figure class="clip"><div class="media"><img src="assets/p6-battlewall/battlewall-tree-shader.webp" alt="Low poly pine trees with gradient shader" loading="lazy" /></div><figcaption>Gradient tree shader</figcaption></figure>
+      <figure class="clip"><div class="media"><video src="assets/p6-battlewall/battlewall-map-loop.mp4" muted loop playsinline controls preload="metadata"></video></div><figcaption>The full map, modeled by me, rendered in Unity</figcaption></figure>
+    </div>
+  </article>
+
+  <!-- AI Shader Graph -->
+  <article class="proj" id="ai-shader-graph">
+    <header><h3>AI Shader Graph</h3><span class="kind">2026 · Bachelor Thesis · Generative Tooling</span></header>
+    <div class="tags"><span class="tag">Unity</span><span class="tag">C#</span><span class="tag">Generative AI</span><span class="tag">Shader Graph</span><span class="tag">Tooling</span></div>
+    <div class="body">
+      <p>My bachelor thesis: a Unity editor tool that generates working Shader Graphs from plain-language prompts. It pairs a large language model with a retrieval-augmented knowledge base of Unity's shader nodes and a factory-pattern architecture that assembles the graph — which required <strong>reverse-engineering Unity's undocumented Shader Graph file format</strong> so the tool writes valid graphs the editor accepts.</p>
+      <p>Generated graphs reached <strong>98% technical validity</strong> in testing, and an 18-participant user study surfaced an "expertise inverse": beginners benefited most, experts were quickest to find the edges. Node-addition workflows dropped from ~45–60 minutes to ~5–10.</p>
+    </div>
+    <div class="vids">
+      <a href="https://www.youtube.com/watch?v=jdrFye879Qs" target="_blank" rel="noopener">Demo</a>
+    </div>
+  </article>
+
+  <!-- Goethe -->
+  <article class="proj" id="goethe">
+    <header><h3>Goethe's Puppet Theater</h3><span class="kind">2025 · Mixed Reality · Selected for Berlin Showtech 2025</span></header>
+    <div class="tags"><span class="tag">Unity</span><span class="tag">Motion Capture</span><span class="tag">Blender</span><span class="tag">Substance Painter</span></div>
+    <div class="body">
+      <p>An interactive museum experience for Meta Quest 3: visitors place puppets into a virtual theater in mixed reality, triggering AI-generated plays around the life and works of Goethe — 80+ OptiTrack motion-captured animations, ragdoll physics, room mapping, AI storytelling and text-to-speech.</p>
+      <p><strong>My part:</strong> performing the motion capture for Goethe and Mephisto (40+ male animations in the OptiTrack suit), retargeting <em>all</em> mocap animations in Blender via the Rokoko addon, modeling and texturing the Charlotte puppet end-to-end (Blender + Substance Painter), and editing the trailer. The project was selected to present at Berlin Showtech 2025.</p>
+    </div>
+    <div class="vids">
+      <a href="https://www.youtube.com/watch?v=ETtcreG9JTk" target="_blank" rel="noopener">Trailer</a>
+    </div>
+    <p class="did">What I did</p>
+    <div class="grid">
+      <figure class="clip"><div class="media"><video src="assets/p5-goethe-puppet-theater/0-mephisto-animation.mp4" muted loop playsinline controls preload="metadata"></video></div><figcaption>Motion capturing Mephisto's walk cycle in the OptiTrack suit</figcaption></figure>
+      <figure class="clip"><div class="media"><img src="assets/p5-goethe-puppet-theater/1-charlotte-progress.webp" alt="Charlotte puppet design progression" loading="lazy" /></div><figcaption>Charlotte — modeled and UV-unwrapped in Blender, textured in Substance Painter</figcaption></figure>
+      <figure class="clip"><div class="media"><video src="assets/p5-goethe-puppet-theater/6-charlotte-rotisserie.mp4" muted loop playsinline controls preload="metadata"></video></div><figcaption>360° view of the finished Charlotte model</figcaption></figure>
+    </div>
+  </article>
+
+  <!-- Space Garden -->
+  <article class="proj" id="space-garden">
+    <header><h3>Dystopian Space Garden</h3><span class="kind">2024 · Real-Time Environment · WIP</span></header>
+    <div class="tags"><span class="tag">Unreal Engine 5</span><span class="tag">Niagara</span><span class="tag">Environment Art</span><span class="tag">Blender</span></div>
+    <div class="body">
+      <p>A tranquil garden inside a dystopian city suspended in the cosmos, inspired by the architecture of Doha's Hamad International Airport. Full Blender → Unreal pipeline: assets modeled and textured in Blender, assembled in-engine with spline-driven paths.</p>
+      <p>The ambient life — falling leaves drifting through the garden and fireflies at dusk — is built with <strong>Niagara particle systems</strong>, alongside a day/night cycle driving the mood.</p>
+    </div>
+    <div class="vids">
+      <a href="https://www.youtube.com/watch?v=ulZW2bdWIpo" target="_blank" rel="noopener">Walkthrough</a>
+    </div>
+    <p class="did">What I did</p>
+    <div class="grid">
+      <figure class="clip"><div class="media"><video src="assets/proj-space-garden/1-space-garden-fountain.mp4" muted loop playsinline controls preload="metadata"></video></div><figcaption>Structures blocked out in Unreal, refined in Blender</figcaption></figure>
+      <figure class="clip"><div class="media"><img src="assets/proj-space-garden/4-space-garden-entrance.jpg" alt="Garden entrance" loading="lazy" /></div><figcaption>Garden entrance</figcaption></figure>
+      <figure class="clip"><div class="media"><img src="assets/proj-space-garden/7-space-garden-globe.jpg" alt="Day/night cycle shown on the globe" loading="lazy" /></div><figcaption>Day/night cycle</figcaption></figure>
+    </div>
+  </article>
+
+  <!-- Primazon -->
+  <article class="proj" id="primazon">
+    <header><h3>Primazon — Arduino Game</h3><span class="kind">2025 · Game + Custom Hardware · Solo</span></header>
+    <div class="tags"><span class="tag">Unity</span><span class="tag">Arduino</span><span class="tag">C#</span><span class="tag">Hardware</span></div>
+    <div class="body">
+      <p>A solo project where I built both the game and the controller it runs on: a custom Arduino Bluetooth controller wired by hand, talking to Unity, driving a timed package-delivery game. Gameplay programming, the Unity build, and physical electronics in one loop — software to hardware, end to end.</p>
+    </div>
+    <div class="vids">
+      <a href="https://www.youtube.com/watch?v=cLRagV4CvvU" target="_blank" rel="noopener">Gameplay</a>
+    </div>
+  </article>
+
+  <!-- Mountain Range -->
+  <article class="proj" id="mountain-range">
+    <header><h3>Mountain Range</h3><span class="kind">2025 · Real-Time Environment</span></header>
+    <div class="tags"><span class="tag">Unreal Engine 5</span><span class="tag">Lighting</span><span class="tag">Sequencer</span></div>
+    <div class="body">
+      <p>A UE5 environment study — a valley river beneath a mountain range — focused on lighting, cinematic composition, and learning Sequencer. Includes a height-based material treatment on the rocks: lower elevations read darker and glossier, as if wet from the river.</p>
+    </div>
+    <div class="vids">
+      <a href="https://www.youtube.com/watch?v=pHEPE3CQR0w" target="_blank" rel="noopener">Cinematic</a>
+    </div>
+  </article>
+</section>
+
+<section id="background">
+  <p class="eyebrow">Background</p>
+  <h2>Skills &amp; Experience</h2>
+  <div class="cols">
+    <div class="card clip">
+      <h4>Engines &amp; Languages</h4>
+      <ul>
+        <li><b>Unity</b> — C#, editor tooling, Shader Graph, VFX Graph</li>
+        <li><b>Unreal Engine 5</b> — Blueprints, Niagara, Sequencer</li>
+        <li><b>C#</b> — tools, serialization, factory-pattern architecture</li>
+      </ul>
+    </div>
+    <div class="card clip">
+      <h4>Tech Art</h4>
+      <ul>
+        <li><b>Shaders</b> — stylized water, gradient &amp; height-based materials</li>
+        <li><b>Real-time VFX</b> — VFX Graph, Niagara particle systems</li>
+        <li><b>Procedural</b> — Blender Geometry Nodes</li>
+        <li><b>Motion capture</b> — OptiTrack performance, Rokoko retargeting</li>
+        <li><b>Pipeline</b> — Blender → engine, PBR texturing, draw-call optimization</li>
+      </ul>
+    </div>
+    <div class="card clip">
+      <h4>Education &amp; Experience</h4>
+      <ul>
+        <li><b>B.A. Expanded Realities</b> — Hochschule Darmstadt, 2026</li>
+        <li><b>Internship, Mindgate Studios</b> — modeling, texturing, rigging &amp; animation in Blender; environment assets in UE5</li>
+        <li><b>Berlin Showtech 2025</b> — selected exhibitor (Goethe's Puppet Theater)</li>
+        <li><b>Languages</b> — English (native) · German (Goethe C1)</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="contact" id="contact">
+  <p class="eyebrow">Contact</p>
+  <h2>Let's talk</h2>
+  <p>I'm based near Darmstadt, available immediately, and looking for a team where shader, VFX and tooling work meets real products. The interactive version of this portfolio lives one click away.</p>
+  <div class="links">
+    <a href="mailto:phillipowor.dev@gmail.com">Email me</a>
+    <a class="ghost" href="https://www.linkedin.com/in/phillip-owor-9891122b9/" target="_blank" rel="noopener">LinkedIn</a>
+    <a class="ghost" href="index.html">Interactive portfolio</a>
+  </div>
+</section>
+
+</main>
+
+<footer class="fineprint"><div class="wrap">© 2026 Phillip Owor</div></footer>
+
+</body>
+</html>
