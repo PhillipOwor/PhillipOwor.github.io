@@ -160,7 +160,9 @@
 
   /* hint + list toggle */
   .hint{position:fixed; bottom:26px; left:50%; transform:translateX(-50%);
-    font-family:var(--mono); font-size:.66rem; letter-spacing:.15em; color:var(--text-dim); text-align:center;}
+    font-family:var(--mono); font-size:.66rem; letter-spacing:.15em; color:var(--text-dim); text-align:center;
+    transition:opacity .3s, visibility .3s;}
+  body:has(#detail.open) .hint{opacity:0; visibility:hidden;}
   .hint b{color:var(--gold); font-weight:400;}
   .hint .copyr{display:block; margin-top:9px; color:var(--text-faint); letter-spacing:.24em;}
   .brandmark{position:fixed; top:18px; left:26px; z-index:44; display:flex; align-items:center; gap:11px;
@@ -205,9 +207,7 @@
   .det-inner{position:absolute; left:4vw; right:4vw; top:9vh; padding-bottom:6vh;
     display:grid; gap:26px 30px; align-items:start;}
   /* layout variants */
-  .det-inner.lay-default{grid-template-columns:1.35fr 1fr; grid-template-rows:auto auto 1fr; grid-template-areas:"video gallery" "desc gallery" ". gallery";}
-  .det-inner.lay-feature{display:block;}
-  .det-inner.lay-duo{grid-template-columns:1.05fr 1fr; grid-template-areas:"v1 v2" "desc gallery";}
+  .det-inner.lay-gal{display:block;}
   .det-inner.lay-solo{grid-template-columns:1.1fr 1fr; grid-template-areas:"video desc";}
 
   .det-video{position:relative; width:100%; aspect-ratio:16/9;
@@ -244,16 +244,17 @@
   .det-tag{display:inline-flex; align-items:center; gap:7px; font-family:var(--mono); font-size:.6rem; letter-spacing:.08em; text-transform:uppercase; color:var(--gold);
     box-shadow:inset 0 0 0 1px var(--gold-dim); padding:6px 11px 6px 8px; clip-path:polygon(5px 0,100% 0,100% calc(100% - 5px),calc(100% - 5px) 100%,0 100%,0 5px);}
   .det-tag img{width:18px; height:18px; object-fit:contain;}
+  .det-skilltags{display:flex; gap:9px; flex-wrap:wrap; margin-bottom:26px;}
 
   /* gallery */
   .det-gallery{grid-area:gallery;}
-  .det-gallery-label{font-family:var(--mono); font-size:.66rem; letter-spacing:.16em; text-transform:uppercase; color:var(--gold); margin-bottom:14px;}
-  .det-grid{display:grid; gap:12px; align-content:start;}
+  .det-gallery-label{font-family:var(--serif); font-size:1.7rem; font-weight:600; color:#f6ecd3; letter-spacing:.01em; margin-bottom:18px;}
+  .det-grid{display:grid; gap:22px 18px; align-content:start;}
   .det-grid.cols2{grid-template-columns:repeat(auto-fill,minmax(185px,1fr));}
-  .det-grid.wide{grid-template-columns:repeat(auto-fill,minmax(185px,1fr));}
-  .det-gthumb{aspect-ratio:16/10; opacity:0; transform:translateX(-52px) scale(.78); cursor:pointer;}
+  .det-grid.wide{grid-template-columns:repeat(auto-fill,minmax(400px,1fr));}
+  .det-gthumb{opacity:0; transform:translateX(-52px) scale(.78); cursor:pointer;}
   .det-gthumb.in{opacity:1; transform:none; transition:opacity .42s ease, transform .54s cubic-bezier(.22,.61,.36,1);}
-  .gt-inner{position:relative; width:100%; height:100%; overflow:hidden;
+  .gt-inner{position:relative; width:100%; aspect-ratio:16/10; overflow:hidden;
     background:linear-gradient(160deg,#16161f,#0c0c12); box-shadow:inset 0 0 0 1px #4a3c1e;
     clip-path:polygon(8px 0,100% 0,100% calc(100% - 8px),calc(100% - 8px) 100%,0 100%,0 8px);
     transform:perspective(680px) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg));
@@ -263,6 +264,11 @@
   .gt-inner::after{content:''; position:absolute; inset:0; pointer-events:none; z-index:2;
     background:radial-gradient(circle at var(--mx,50%) var(--my,50%), #fff2e622, transparent 46%); opacity:0; transition:opacity .3s;}
   .gt-inner.tilting::after{opacity:1;}
+  .gt-cap{padding:10px 4px 0; font-size:.86rem; line-height:1.55; color:var(--text-dim); font-weight:300;}
+  .det-vidrow{display:grid; grid-template-columns:repeat(auto-fit,minmax(420px,1fr)); gap:22px; margin:36px 0 30px; align-items:start;}
+  .det-vidrow .det-video, .det-vidrow .det-feature{grid-area:auto;}
+  .det-vidrow .det-feature{height:auto; max-width:none;}
+  .det-vidrow .det-feature-img{width:100%; height:auto;}
 
 
   .det-close{position:fixed; top:26px; right:30px; z-index:40; display:flex; align-items:center; gap:8px;
@@ -531,7 +537,7 @@ const PROJECTS = [
       folder: "p5-goethe-puppet-theater",
       title: "Goethe's Puppet Theater",
       year: "2025 — Mixed Reality",
-      tags: ["Unity","Mixed Reality","Motion Capture"],
+      tags: ["Unity","Mixed Reality","Motion Capture","3D Modeling","Texturing"],
       thumb: "p5-thumbnail.png",
       hover: "0-mephisto-animation.mp4",
       screenshot: "philip-owor-image-2025-08-05-210519724.webp",
@@ -609,7 +615,7 @@ const PROJECTS = [
       folder: "proj-mountain-range",
       title: "Mountain Range",
       year: "2025 — Real-Time Environment",
-      tags: ["Unreal Engine 5","Lighting","Cinematics"],
+      tags: ["Unreal Engine 5","Environment Art","Lighting","Cinematics"],
       thumb: "mountain-range-thumbnail.png",
       hover: "mountain-range-preview.mp4",
       screenshot: "mountain-range-1.webp",
@@ -638,7 +644,7 @@ const PROJECTS = [
       folder: "proj-bachelor-thesis",
       title: "AI Shader Graph",
       year: "2026 — Bachelor Thesis · Generative Tooling",
-      tags: ["Unity","Generative AI","Shader Graph","Tooling"],
+      tags: ["Unity","Generative AI","Shaders","Tooling","C#"],
       thumb: "thesis-proj-thumbnail.jpg",
       hover: "shader-graph-preview.mp4",
       screenshot: "thesis-proj-thumbnail.jpg",
@@ -659,9 +665,9 @@ const PROJECTS = [
     {
       id: "primazon",
       folder: "proj-primazon",
-      title: "Primazon - Arduino Game",
+      title: "Arduino Game - Primazon",
       year: "2025 — Game + Custom Hardware",
-      tags: ["Unity","Arduino","Hardware","Gameplay"],
+      tags: ["Unity","Arduino","Electronics","Gameplay Programming"],
       thumb: "full-arduino-controller-primazon.jpg",
       hover: "primazon-preview.mp4",
       screenshot: "full-arduino-controller-primazon.jpg",
@@ -682,7 +688,7 @@ const PROJECTS = [
       folder: "proj-space-garden",
       title: "Dystopian Space Garden",
       year: "2024 — Real-Time Environment (WIP)",
-      tags: ["Unreal Engine 5","Environment Art","Concept","VFX"],
+      tags: ["Unreal Engine 5","Environment Art","VFX"],
       thumb: "space-garden-thumbnail.png",
       hover: "1-space-garden-fountain.mp4",
       screenshot: "4-space-garden-entrance.jpg",
@@ -856,12 +862,6 @@ function safeHash(v){ try { history.replaceState(null, '', v); } catch(e){ /* sa
 
 let currentContrib = [];
 
-function layoutOf(p){
-  if(p.videos.length >= 2) return 'duo';                 // BattleWall: two videos
-  if(p.feature) return 'feature';                        // Goethe: photo right of video
-  if(!p.contributions.length) return 'solo';             // Primazon / AI Shader: desc right, no gallery
-  return 'default';                                      // Mountain Range / Space Garden
-}
 function videoBlock(p, v, cls){
   return `<div class="det-video ${cls}"><iframe src="https://www.youtube.com/embed/${v.youtube}" title="${p.title} — ${v.label}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe></div>`;
 }
@@ -872,10 +872,14 @@ function galleryReal(p, cols, label){
     const media = isVid(c.file)
       ? `<video class="gt-media" src="${path}" muted loop playsinline preload="metadata"></video>`
       : `<img class="gt-media" src="${path}" alt="${p.title} ${i+1}" />`;
-    return `<div class="det-gthumb" data-idx="${i}"><div class="gt-inner">${media}</div></div>`;
+    return `<div class="det-gthumb" data-idx="${i}"><div class="gt-inner">${media}</div>${c.caption ? `<div class="gt-cap">${c.caption}</div>` : ''}</div>`;
   }).join('');
   const lbl = label ? `<div class="det-line det-gallery-label">${label}</div>` : '';
   return `<div class="det-gallery">${lbl}<div class="det-grid ${cols}">${tiles}</div></div>`;
+}
+
+function skillTags(p){
+  return `<div class="det-line det-skilltags">${p.tags.map(t=>`<span class="det-tag">${t}</span>`).join('')}</div>`;
 }
 function tagsReal(p){
   return `<div class="det-tags">${p.tools.map(t=>`<span class="det-tag"><img src="assets/icons/${t.icon}" alt="" />${t.name}</span>`).join('')}</div>`;
@@ -891,28 +895,19 @@ function descReal(p, withTags){
 
 function fillDetail(){
   const p = PROJECTS[focus];
-  const lay = layoutOf(p);
+  const lay = p.contributions.length ? 'gal' : 'solo';
   currentContrib = p.contributions.map(c => ({ path: ap(p, c.file), caption: c.caption || '', file: c.file }));
-  const vMain = videoBlock(p, p.videos[0], 'v-main');
+  const vids = p.videos.map((v,vi)=> videoBlock(p, v, vi ? 'v-second' : 'v-main')).join('');
+  const featureHtml = p.feature ? `<div class="det-feature"><img class="det-feature-img" src="${ap(p, p.feature.photo)}" alt="${p.title}" />${p.feature.caption ? `<div class="det-feature-cap">${p.feature.caption}</div>` : ''}</div>` : '';
   let html = '';
 
-  if(lay === 'duo'){
-    // BattleWall — Trailer (left) + Gameplay (right); gallery (left) + description (right)
-    html = vMain
-      + videoBlock(p, p.videos[1], 'v-second')
-      + galleryReal(p, 'wide', 'What I did:')
-      + descReal(p, true);
-  } else if(lay === 'feature'){
-    // Goethe — video + showtech photo (same height) on one row; description below both; gallery below
-    html = `<div class="det-featrow">${vMain}<div class="det-feature"><img class="det-feature-img" src="${ap(p, p.feature.photo)}" alt="${p.title}" />${p.feature.caption ? `<div class="det-feature-cap">${p.feature.caption}</div>` : ''}</div></div>`
-      + descReal(p, true)
-      + galleryReal(p, 'wide', 'What I did:');
-  } else if(lay === 'solo'){
-    // Primazon / AI Shader — video (left) + description (right), no gallery
-    html = vMain + descReal(p, true);
+  if(lay === 'gal'){
+    html = skillTags(p)
+            + galleryReal(p, 'wide', 'What I did')
+            + `<div class="det-vidrow">${vids}${featureHtml}</div>`
+            + descReal(p, true);
   } else {
-    // default — video (left) + gallery (right) + description below (kept tight to the video)
-    html = vMain + galleryReal(p, 'wide', '') + descReal(p, true);
+    html = vids + descReal(p, true);
   }
 
   detInner.className = 'det-inner lay-' + lay;
