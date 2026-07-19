@@ -26,6 +26,7 @@
       radial-gradient(120% 120% at 50% 38%, #12131c 0%, #0a0a0f 40%, #05050a 78%) ,
       radial-gradient(60% 60% at 50% 40%, #1a1a26 0%, transparent 60%);
     background-color:#07080d;}
+  #stage{perspective:1600px;}
   /* faint Origins-style geometry: concentric rings + crosshair */
   #bg-lines{position:absolute; inset:0; pointer-events:none; opacity:.5;}
   #bg-hatch{position:absolute; inset:0; pointer-events:none; opacity:.55;
@@ -191,6 +192,12 @@
   /* ===== WHEEL ZOOM STATE (during open) ===== */
   #wheel{transition:transform .72s cubic-bezier(.5,0,.18,1), opacity .34s ease; transform-origin:calc(50% + var(--R)) 50%;}
   #wheel.zooming{transform:translateX(-42vw) scale(2.5); opacity:0; transition:transform .8s cubic-bezier(.5,0,.18,1), opacity .5s ease .3s;}
+  #sway{animation:wheelSway 9s ease-in-out infinite;}
+  #sway:has(#wheel.zooming){animation-play-state:paused;}
+  @keyframes wheelSway{
+    0%,100%{transform:rotateX(-7deg);}
+    50%{transform:rotateX(7deg);}
+  }
 
   /* ===== OPENED DETAIL (zoom-in, full-width, per-project layouts) ===== */
   #detail{position:fixed; inset:0; z-index:30; display:none; overflow-y:auto;}
@@ -410,7 +417,6 @@
   <div id="bg-hatch"></div>
   <div id="bg-lines">
     <svg width="1100" height="1100" viewBox="0 0 1100 1100" fill="none" stroke="#caa24a" stroke-width="1">
-      <circle cx="550" cy="550" r="330" opacity=".18"/>
       <circle cx="550" cy="550" r="410" opacity=".10"/>
       <circle cx="550" cy="550" r="500" opacity=".06"/>
       <line x1="550" y1="60" x2="550" y2="200" opacity=".2"/>
@@ -431,6 +437,7 @@
     </div>
   </aside>
 
+  <div id="sway">
   <div id="wheel">
     <!-- decorative gold gear ring -->
     <svg class="gear" width="640" height="640" viewBox="0 0 640 640" fill="none">
@@ -461,6 +468,7 @@
     </div>
   </div>
 
+  </div>
   <div class="vignette"></div>
   <div class="hint"><b>← →</b> / <b>scroll</b> to browse<span class="copyr">© 2026 Phillip Owor</span></div>
 </div>
@@ -761,8 +769,8 @@ PROJECTS.forEach((p,i)=>{
      <div class="tile-cap"><span class="tile-nm">${p.title}</span></div>
     </div>
     <span class="tile-bk"><i class="a"></i><i class="b"></i><i class="c"></i><i class="d"></i></span>`;
-  
-  b.addEventListener('click', ()=> { if(i===focus){ openDetail(); } else { setFocus(i); setTimeout(openDetail, 420); } });
+
+  b.addEventListener('click', ()=> { if(i!==focus){ const keep = rot; setFocus(i); rot = keep; } openDetail(); });
   b.addEventListener('pointerenter', ()=> { if(!mMq.matches) playCard(b, true); });
   b.addEventListener('pointerleave', ()=> { if(spokeNodes[focus] !== b) playCard(b, false); });
   spokesEl.appendChild(b);
@@ -799,9 +807,9 @@ attachTilt(document.getElementById('hub-btn'), document.getElementById('hub-tilt
   hb.addEventListener('pointerleave', ()=>{ const p = PROJECTS[focus]; fTitle.textContent = p.title; fKind.textContent = `${yearOf(p)} · ${kindOf(p)}`; });
 })();
 
-function targetRotFor(i){
-  // bring spoke i to angle 0 (top): a_i + rot ≡ 0  → rot ≡ -a_i, choose nearest to current
-  const base = -i*STEP;
+function targetRotFor(i, offset){
+  // bring spoke i to angle 0 (top) plus an optional extra swing: choose nearest wrap to current rot
+  const base = -i*STEP + (offset || 0);
   const k = Math.round((rot - base)/360);
   return base + k*360;
 }
@@ -927,7 +935,7 @@ function openDetail(){
   tile.style.setProperty('--rx','0deg'); tile.style.setProperty('--ry','0deg');
 
   // rotate the wheel 90° CW AND zoom the camera into the focused card, sliding it off-left
-  rot += 90;
+  rot = targetRotFor(focus, 90);
   document.documentElement.style.setProperty('--rot', rot+'deg');
   wheel.classList.add('zooming');
 
