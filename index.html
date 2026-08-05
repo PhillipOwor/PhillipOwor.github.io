@@ -4,6 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Phillip Owor | Technical Artist</title>
+  <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.5.0/model-viewer.min.js"></script>
   <link rel="icon" type="image/png" href="assets/icons/phillip-owor-logo-browser.png" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -476,7 +477,13 @@
       <div class="hub-ring"></div>
       <button class="hub-btn" id="hub-btn" aria-label="About Phillip Owor">
         <span class="hub-tilt" id="hub-tilt">
-          <img class="hub-logo" src="assets/icons/phillip-owor-logo-1.png" alt="Phillip Owor" />
+          <model-viewer class="hub-logo" src="assets/icons/insignia-web.glb"
+                        poster="assets/icons/phillip-owor-logo-1.png"
+                        interaction-prompt="none"
+                        camera-controls="false" disable-zoom disable-tap disable-pan
+                        camera-orbit="0deg 78deg 105%" environment-image="neutral"
+                        exposure="1.05" shadow-intensity="0"
+                        style="background:transparent;"></model-viewer>
           <span class="hub-sheen"></span>
         </span>
         <span class="hub-bks"><span class="hub-bk a"></span><span class="hub-bk b"></span><span class="hub-bk c"></span><span class="hub-bk d"></span></span>
