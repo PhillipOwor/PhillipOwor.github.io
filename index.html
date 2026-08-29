@@ -890,7 +890,7 @@ function setProjBg(i){
 }
 const detInner = document.getElementById('det-inner');
 const detClose = document.getElementById('det-close');
-let opened = false, animating = false, aboutOpen = false;
+let opened = false, animating = false, aboutOpen = false, navReplaying = false;
 function safeHash(v){ try { history.replaceState(null, '', v); } catch(e){ /* sandboxed preview blocks replaceState — harmless */ } }
 
 let currentContrib = [];
@@ -963,7 +963,11 @@ function fillDetail(){
 function openDetail(){
   if(opened || animating || aboutOpen) return;
   opened = true; animating = true;
-  if(location.hash !== '#'+PROJECTS[focus].id) safeHash('#'+PROJECTS[focus].id);
+  if(navReplaying){
+    if(location.hash !== '#'+PROJECTS[focus].id) safeHash('#'+PROJECTS[focus].id);
+  } else {
+    history.pushState({proj: PROJECTS[focus].id}, '', '#'+PROJECTS[focus].id);
+  }
   fillDetail();
   const tile = spokeNodes[focus].querySelector('.tile');
   tile.style.setProperty('--rx','0deg'); tile.style.setProperty('--ry','0deg');
@@ -1002,7 +1006,11 @@ function closeDetail(){
   detInner.querySelectorAll('.det-line').forEach(l=> l.classList.remove('in'));
   detInner.querySelectorAll('.det-gthumb').forEach(g=> g.classList.remove('in'));
   detInner.querySelectorAll('.det-video, .det-feature').forEach(v=> v.classList.remove('showing'));
-  if(location.hash) safeHash(location.pathname + location.search);
+  if(!navReplaying){
+    history.pushState({}, '', location.pathname + location.search);
+  } else if(location.hash){
+    safeHash(location.pathname + location.search);
+  }
   // bring the wheel back almost immediately (behind the fading content) — fast fade-in, slower zoom-out
   setTimeout(()=>{
     wheel.classList.remove('zooming');
@@ -1013,6 +1021,26 @@ function closeDetail(){
   setTimeout(()=>{ opened=false; animating=false; }, reduceMotion ? 0 : 900);
 }
 document.getElementById('open-prompt').onclick = openDetail;
+window.addEventListener('popstate', (e)=>{
+  if(animating) return;
+  navReplaying = true;
+  const id = e.state && e.state.proj;
+  if(id){
+    const i = PROJECTS.findIndex(p=> p.id === id);
+    if(i >= 0){
+      if(!opened){ if(i !== focus){ const keep = rot; setFocus(i); rot = keep; } openDetail(); }
+    }
+  } else {
+    if(opened) closeDetail();
+  }
+  navReplaying = false;
+});
+document.querySelector('.brandmark').addEventListener('click', (e)=>{
+  if(opened){
+    e.preventDefault();
+    history.back();
+  }
+});
 detClose.onclick = closeDetail;
 
 /* ---- about (from the hub insignia) ---- */
